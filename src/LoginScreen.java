@@ -1,6 +1,9 @@
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+
+import java.awt.Button;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ToolBar;
@@ -11,7 +14,7 @@ import org.eclipse.swt.events.SelectionEvent;
 public class LoginScreen {
 
 	protected Shell shell;
-	private Text text;
+	public Button selected;
 
 	/**
 	 * Launch the application.
@@ -49,23 +52,29 @@ public class LoginScreen {
 		shell.setSize(450, 300);
 		shell.setText("SWT Application");
 		
-		text = new Text(shell, SWT.BORDER);
-		text.setBounds(68, 80, 64, 19);
-		
 		Label lblNewLabel = new Label(shell, SWT.NONE);
 		lblNewLabel.setBounds(68, 48, 170, 14);
-		lblNewLabel.setText("Please Enter Your Role");
+		lblNewLabel.setText("Please Select Your Role");
 		
 		ToolBar toolBar = new ToolBar(shell, SWT.FLAT | SWT.RIGHT);
-		toolBar.setBounds(49, 117, 86, 20);
+		toolBar.setBounds(68, 105, 170, 20);
 		
-		ToolItem tltmEditor = new ToolItem(toolBar, SWT.DROP_DOWN);
-		tltmEditor.addSelectionListener(new SelectionAdapter() {
+		ToolItem tltmEditor = new ToolItem(toolBar, SWT.RADIO);
+		tltmEditor.setText("Editor");
+		
+		ToolItem tltmAuthor = new ToolItem(toolBar, SWT.RADIO);
+		tltmAuthor.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				AuthorGUI author = new AuthorGUI();
+				shell.close();
+				author.open();
 			}
 		});
-		tltmEditor.setText("Role");
+		tltmAuthor.setText("Author");
+		
+		ToolItem tltmReviewer = new ToolItem(toolBar, SWT.RADIO);
+		tltmReviewer.setText("Reviewer");
 
 	}
 }
