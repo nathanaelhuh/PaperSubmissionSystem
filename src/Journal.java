@@ -36,11 +36,17 @@ public class Journal
 	public String journalTitle;
 	public Reviewer reviewers[] = new Reviewer[3];
 	public int status = -1;
+	public String summary;
 	
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
 	public Journal(String journalTitle) {
 		this.journalTitle = journalTitle;
 	}
-	
-	
-	
 }
