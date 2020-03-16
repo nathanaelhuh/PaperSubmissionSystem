@@ -109,6 +109,11 @@ public class AuthorGUI {
 		btnUploadFile.setBounds(1096, 10, 94, 28);
 		btnUploadFile.setText("Upload File");
 		
+		mainView = new Composite(shell, SWT.BORDER);
+		mainView.setBounds(33, 60, 1100, 900);
+	    StackLayout layout = new StackLayout();
+	    mainView.setLayout(layout);
+		
 		ToolBar toolBar = new ToolBar(shell, SWT.FLAT | SWT.RIGHT);
 		toolBar.setBounds(33, 32, 531, 20);
 		
@@ -116,7 +121,9 @@ public class AuthorGUI {
 		tltmMyJournals.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				layout.topControl = myJournalGrid;
 				displayMyJournals();
+				mainView.layout();
 			}
 		});
 		tltmMyJournals.setText("My Journals");
@@ -125,7 +132,9 @@ public class AuthorGUI {
 		tltmReviewedJournals.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				layout.topControl = reviewedJournalGrid;
 				displayReviewedJournals();
+				mainView.layout();
 			}
 		});
 		tltmReviewedJournals.setText("Reviewed Journals");
@@ -139,11 +148,6 @@ public class AuthorGUI {
 		
 		systemReviewers = new List(shell, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
 		populateReviewerList(systemReviewers);
-		
-		mainView = new Composite(shell, SWT.BORDER);
-		mainView.setBounds(33, 60, 1100, 900);
-	    StackLayout layout = new StackLayout();
-	    mainView.setLayout(layout);
 	    
 	    Button btnLogOut = new Button(shell, SWT.NONE);
 	    btnLogOut.addSelectionListener(new SelectionAdapter() {
@@ -162,16 +166,18 @@ public class AuthorGUI {
 	public static void displayMyJournals() {
 		myJournalGrid = new Composite(mainView, SWT.BORDER);
 		myJournalGrid.setBounds(0, 0, 1100, 900);
-		myJournalGrid.setLayout(new GridLayout());
+		myJournalGrid.setLayout(new RowLayout());
 		for(int i = 0; i < myJournals.size(); i++)
 		{
-			List journalReviewersListPick = new List(myJournalGrid, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
+			Composite tempJournal = new Composite(myJournalGrid, SWT.BORDER);
+
+			List journalReviewersListPick = new List(tempJournal, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
 			populateReviewerList(journalReviewersListPick);
 			Font reviewerPicklistFont = new Font(journalReviewersListPick.getDisplay(), new FontData( "Arial", 8, SWT.BOLD));
 			journalReviewersListPick.setFont(reviewerPicklistFont);
-			journalReviewersListPick.setBounds(90+110*i, 150, 50, 30);
-			Label x = new Label(myJournalGrid, SWT.BORDER);
-			x.setBounds(110*i, 0, 100, 130);
+			journalReviewersListPick.setBounds(50, 100, 50, 30);
+			Label x = new Label(tempJournal, SWT.BORDER);
+			x.setBounds(0, 0, 100, 130);
 			Color c = new Color(display, 110, 176, 216);
 			x.setBackground(c);
 			//This blocks future labels and stuff???
@@ -185,11 +191,12 @@ public class AuthorGUI {
 	public static void displayReviewedJournals() {
 		reviewedJournalGrid = new Composite(mainView, SWT.BORDER);
 		reviewedJournalGrid.setBounds(0, 0, 1100, 900);
-		reviewedJournalGrid.setLayout(new GridLayout());
+		reviewedJournalGrid.setLayout(new RowLayout());
 		for(int i = 0; i < reviewedJournals.size(); i++)
 		{
-			Label x = new Label(reviewedJournalGrid, SWT.BORDER);
-			x.setBounds(110*i, 0, 100, 130);
+			Composite tempJournal = new Composite(reviewedJournalGrid, SWT.BORDER);
+			Label x = new Label(tempJournal, SWT.BORDER);
+			x.setBounds(0, 0, 100, 130);
 			Color c = new Color(display, 237, 232, 99);
 			x.setBackground(c);
 			//This blocks future labels and stuff???
