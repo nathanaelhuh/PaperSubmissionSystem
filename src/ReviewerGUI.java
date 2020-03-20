@@ -67,17 +67,21 @@ public class ReviewerGUI {
 		tbtmBrowseJournals.setControl(browseJournals);
 		
 		Label lblJournals = new Label(browseJournals, SWT.NONE);
-		lblJournals.setBounds(28, 12, 59, 14);
+		lblJournals.setBounds(45, 12, 59, 14);
 		lblJournals.setText("Journals");
 		
 		List allJournals = new List(browseJournals, SWT.BORDER);
 		allJournals.setLocation(10, 32);
-		allJournals.setSize(99, 198);
+		allJournals.setSize(152, 168);
 		allJournals.setItems(new String[] {"Journal 1", "Journal 2", "Journal 3"});
 		
 		Label lblPreview = new Label(browseJournals, SWT.CENTER);
 		lblPreview.setBounds(248, 12, 70, 14);
 		lblPreview.setText("Preview");
+		
+		Button btnNewButton_1 = new Button(browseJournals, SWT.NONE);
+		btnNewButton_1.setBounds(10, 203, 152, 27);
+		btnNewButton_1.setText("Request to Review");
 		
 		TabItem tbtmReviewJournals = new TabItem(tabFolder, SWT.NONE);
 		tbtmReviewJournals.setText("Review Journal");
