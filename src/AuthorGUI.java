@@ -1,6 +1,7 @@
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 
 import java.util.ArrayList;
@@ -32,7 +33,10 @@ public class AuthorGUI {
 	public static Composite mainView;
 	public static Composite myJournalGrid;
 	public static Composite reviewedJournalGrid;
-
+	
+	//TEST LIST THAT CAN BE DELETED FOR A DATABASE LATER
+//	public static Reviewer[] reviewerList = {new Reviewer("Reviewer 1"), new Reviewer("Reviewer 2"), new Reviewer("Reviewer 3"), new Reviewer("Reviewer 4")};
+//	public static String[] stringReviewerList = new String[reviewerList.length];
 	/**
 	 * Launch the application.
 	 * @param args
@@ -96,6 +100,8 @@ public class AuthorGUI {
 		shell.setSize(1200, 1000);
 		shell.setText("SWT Application");
 		
+//		populateStringList();
+		
 		Button btnUploadFile = new Button(shell, SWT.NONE);
 		btnUploadFile.addMouseListener(new MouseAdapter() {
 			@Override
@@ -113,6 +119,54 @@ public class AuthorGUI {
 		mainView.setBounds(33, 60, 1100, 900);
 	    StackLayout layout = new StackLayout();
 	    mainView.setLayout(layout);
+	    
+	    myJournalGrid = new Composite(mainView, SWT.NONE);
+	    
+	    myJournalGrid.setBounds(0, 0, 1100, 900);
+		myJournalGrid.setLayout(new RowLayout());
+		for(int i = 0; i < myJournals.size(); i++)
+		{
+			Composite tempJournal = new Composite(myJournalGrid, SWT.BORDER);
+			
+//			Combo reviewerCombo = new Combo(tempJournal, SWT.DROP_DOWN);
+//			reviewerCombo.setItems(stringReviewerList);
+//			reviewerCombo.setBounds(20,  100,  80,  30);
+
+//			List journalReviewersListPick = new List(tempJournal, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
+//			populateReviewerList(journalReviewersListPick);
+//			Font reviewerPicklistFont = new Font(journalReviewersListPick.getDisplay(), new FontData( "Arial", 8, SWT.BOLD));
+//			journalReviewersListPick.setFont(reviewerPicklistFont);
+//			journalReviewersListPick.setBounds(50, 100, 50, 30);
+			
+			Label x = new Label(tempJournal, SWT.BORDER);
+			x.setBounds(0, 0, 100, 130);
+			Color c = new Color(display, 110, 176, 216);
+			x.setBackground(c);
+			//This blocks future labels and stuff???
+			x.setText(myJournals.get(i).getJournalTitle() + "\n\n" + "Reviewers\n" 
+					+ myJournals.get(i).getReviewers()[0].getName() + "\n" 
+					+ myJournals.get(i).getReviewers()[1].getName() + "\n" 
+					+ myJournals.get(i).getReviewers()[2].getName());
+		}
+	    
+	    
+	    
+	    reviewedJournalGrid = new Composite(mainView, SWT.NONE);
+	    
+	    reviewedJournalGrid.setBounds(0, 0, 1100, 900);
+		reviewedJournalGrid.setLayout(new RowLayout());
+		for(int i = 0; i < reviewedJournals.size(); i++)
+		{
+			Composite tempJournal = new Composite(reviewedJournalGrid, SWT.BORDER);
+			
+			Label x = new Label(tempJournal, SWT.BORDER);
+			x.setBounds(0, 0, 100, 130);
+			Color c = new Color(display, 237, 232, 99);
+			x.setBackground(c);
+			//This blocks future labels and stuff???
+			x.setText(reviewedJournals.get(i).getJournalTitle());
+		}
+		
 		
 		ToolBar toolBar = new ToolBar(shell, SWT.FLAT | SWT.RIGHT);
 		toolBar.setBounds(33, 32, 531, 20);
@@ -122,7 +176,7 @@ public class AuthorGUI {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				layout.topControl = myJournalGrid;
-				displayMyJournals();
+//				displayMyJournals();
 				mainView.layout();
 			}
 		});
@@ -133,7 +187,7 @@ public class AuthorGUI {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				layout.topControl = reviewedJournalGrid;
-				displayReviewedJournals();
+//				displayReviewedJournals();
 				mainView.layout();
 			}
 		});
@@ -176,6 +230,7 @@ public class AuthorGUI {
 			Font reviewerPicklistFont = new Font(journalReviewersListPick.getDisplay(), new FontData( "Arial", 8, SWT.BOLD));
 			journalReviewersListPick.setFont(reviewerPicklistFont);
 			journalReviewersListPick.setBounds(50, 100, 50, 30);
+			
 			Label x = new Label(tempJournal, SWT.BORDER);
 			x.setBounds(0, 0, 100, 130);
 			Color c = new Color(display, 110, 176, 216);
@@ -195,6 +250,7 @@ public class AuthorGUI {
 		for(int i = 0; i < reviewedJournals.size(); i++)
 		{
 			Composite tempJournal = new Composite(reviewedJournalGrid, SWT.BORDER);
+			
 			Label x = new Label(tempJournal, SWT.BORDER);
 			x.setBounds(0, 0, 100, 130);
 			Color c = new Color(display, 237, 232, 99);
@@ -211,4 +267,10 @@ public class AuthorGUI {
 			l.add("Reviewer " + i);
 		}
 	}
+	
+//	public static void populateStringList()
+//	{
+//		for(int i = 0; i < reviewerList.length; i++)
+//			stringReviewerList[i] = reviewerList[i].getName();
+//	}
 }
