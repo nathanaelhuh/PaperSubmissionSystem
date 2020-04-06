@@ -55,7 +55,7 @@ public class LoginScreen {
 		shell.setText("SWT Application");
 		
 		Label lblNewLabel = new Label(shell, SWT.NONE);
-		lblNewLabel.setBounds(68, 48, 170, 14);
+		lblNewLabel.setBounds(68, 48, 170, 30);
 		lblNewLabel.setText("Please Select Your Role");
 		
 		ToolBar loginBar = new ToolBar(shell, SWT.FLAT | SWT.RIGHT);
