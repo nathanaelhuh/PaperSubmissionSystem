@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.widgets.Label;
@@ -34,22 +35,21 @@ public class AuthorGUI {
 	public static Display display;
 	public static ArrayList<Journal> myJournals = new ArrayList<Journal>();
 	public static ArrayList<Journal> reviewedJournals = new ArrayList<Journal>();
+	public static ArrayList<Journal> publishedJournals = new ArrayList<Journal>();
 	public static String name = "AUTHOR";
 	public static List systemReviewers;
 	public static Composite mainView;
 	public static Composite myJournalGrid;
 	public static Composite reviewedJournalGrid;
-	
-	//Arrays that link to database
-	public static Reviewer[] reviewerList = {new Reviewer("Reviewer 1"), new Reviewer("Reviewer 2"), new Reviewer("Reviewer 3"), new Reviewer("Reviewer 4")};
+	public static Composite publishedJournalGrid;
+
+	// Arrays that link to database
+	public static Reviewer[] reviewerList = { new Reviewer("Reviewer 1"), new Reviewer("Reviewer 2"), new Reviewer("Reviewer 3"), new Reviewer("Reviewer 4") };
 	public static String[] stringReviewerList = new String[reviewerList.length];
-	
-	public static Journal[] journals = {new Journal("Journal 1"), new Journal("Journal 2"), new Journal("Journal 3")};
+
+	public static Journal[] journals = { new Journal("Journal 1"), new Journal("Journal 2"), new Journal("Journal 3") };
 	public static String[] stringJournals = new String[journals.length];
 
-	// TEST LIST THAT CAN BE DELETED FOR A DATABASE LATER
-//	public static Reviewer[] reviewerList = {new Reviewer("Reviewer 1"), new Reviewer("Reviewer 2"), new Reviewer("Reviewer 3"), new Reviewer("Reviewer 4")};
-//	public static String[] stringReviewerList = new String[reviewerList.length];
 	/**
 	 * Launch the application.
 	 * 
@@ -76,6 +76,12 @@ public class AuthorGUI {
 		reviewedJournals.add(new Journal("Journal 1"));
 		reviewedJournals.add(new Journal("Journal 2"));
 		reviewedJournals.add(new Journal("Journal 3"));
+	}
+
+	public static void populatePublishedJournals() {
+		publishedJournals.add(new Journal("Journal 1"));
+		publishedJournals.add(new Journal("Journal 2"));
+		publishedJournals.add(new Journal("Journal 3"));
 	}
 
 	public static void populateReviewers() {
@@ -111,7 +117,7 @@ public class AuthorGUI {
 	 */
 	public void createContents() {
 		shell = new Shell();
-		shell.setSize(1200, 1000);
+		shell.setSize(1000, 800);
 		shell.setText("SWT Application");
 
 		Button btnUploadFile = new Button(shell, SWT.NONE);
@@ -121,18 +127,21 @@ public class AuthorGUI {
 				uploadWindow();
 			}
 		});
-		btnUploadFile.setBounds(1096, 10, 94, 28);
+		btnUploadFile.setBounds(770, 10, 94, 28);
 		btnUploadFile.setText("Upload File");
 
 		mainView = new Composite(shell, SWT.BORDER);
-		mainView.setBounds(33, 60, 1100, 900);
+		mainView.setBounds(33, 60, 917, 650);
 		StackLayout layout = new StackLayout();
 		mainView.setLayout(layout);
-
-		myJournalGrid = new Composite(mainView, SWT.NONE);
+		
+		GridLayout gridlayout = new GridLayout();
+		gridlayout.numColumns = 8;
+		
+		myJournalGrid = new Composite(mainView, SWT.V_SCROLL);
 
 		myJournalGrid.setBounds(0, 0, 1100, 900);
-		myJournalGrid.setLayout(new RowLayout());
+		myJournalGrid.setLayout(gridlayout);
 		for (int i = 0; i < myJournals.size(); i++) {
 			Composite tempJournal = new Composite(myJournalGrid, SWT.BORDER);
 
@@ -150,11 +159,11 @@ public class AuthorGUI {
 					+ myJournals.get(i).getReviewers()[1].getName() + "\n"
 					+ myJournals.get(i).getReviewers()[2].getName());
 		}
+		
+		reviewedJournalGrid = new Composite(mainView, SWT.V_SCROLL);
 
-		reviewedJournalGrid = new Composite(mainView, SWT.NONE);
-
-		reviewedJournalGrid.setBounds(0, 0, 1100, 900);
-		reviewedJournalGrid.setLayout(new RowLayout());
+		reviewedJournalGrid.setBounds(0, 0, 900, 800);
+		reviewedJournalGrid.setLayout(gridlayout);
 		for (int i = 0; i < reviewedJournals.size(); i++) {
 			Composite tempJournal = new Composite(reviewedJournalGrid, SWT.BORDER);
 
@@ -182,6 +191,21 @@ public class AuthorGUI {
 
 		}
 
+		publishedJournalGrid = new Composite(mainView, SWT.V_SCROLL);
+
+		publishedJournalGrid.setBounds(0, 0, 1100, 900);
+		publishedJournalGrid.setLayout(gridlayout);
+		for (int i = 0; i < myJournals.size(); i++) {
+			Composite tempJournal = new Composite(publishedJournalGrid, SWT.BORDER);
+
+			Label x = new Label(tempJournal, SWT.BORDER);
+			x.setBounds(0, 0, 100, 130);
+			Color c = new Color(display, 94, 186, 125);
+			x.setBackground(c);
+			// This blocks future labels and stuff???
+			x.setText(myJournals.get(i).getJournalTitle());
+		}
+
 		ToolBar toolBar_1 = new ToolBar(shell, SWT.FLAT | SWT.RIGHT);
 		toolBar_1.setBounds(33, 31, 366, 23);
 
@@ -206,10 +230,17 @@ public class AuthorGUI {
 		tltmReviewedJournals.setText("Reviewed Journals");
 
 		ToolItem tltmPublishedJournals = new ToolItem(toolBar_1, SWT.RADIO);
+		tltmPublishedJournals.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				layout.topControl = publishedJournalGrid;
+				mainView.layout();
+			}
+		});
 		tltmPublishedJournals.setText("Published Journals");
 
 		Label lblWelcome = new Label(shell, SWT.NONE);
-		lblWelcome.setBounds(956, 17, 134, 14);
+		lblWelcome.setBounds(650, 15, 120, 14);
 		lblWelcome.setText("Welcome " + name);
 
 		systemReviewers = new List(shell, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL);
@@ -224,7 +255,7 @@ public class AuthorGUI {
 				logout.open();
 			}
 		});
-		btnLogOut.setBounds(979, 32, 94, 28);
+		btnLogOut.setBounds(879, 10, 94, 28);
 		btnLogOut.setText("Log Out");
 
 	}
@@ -235,26 +266,25 @@ public class AuthorGUI {
 		uploadShell.getLayout();
 		uploadShell.setText("Upload File");
 		uploadShell.setSize(450, 300);
-		
+
 		String reviewers[] = new String[3];
 		reviewers[0] = "";
 		reviewers[1] = "";
 		reviewers[2] = "";
-		
 
-		Combo journalCombo = new Combo(uploadShell, SWT.DROP_DOWN);
-		
-		Label lblInsertFileName = new Label(uploadShell, SWT.NONE);		//CHANGES
+		Combo journalCombo = new Combo(uploadShell, SWT.DROP_DOWN | SWT.READ_ONLY);
+
+		Label lblInsertFileName = new Label(uploadShell, SWT.NONE); // CHANGES
 		lblInsertFileName.setBounds(73, 34, 118, 14);
 		lblInsertFileName.setText("Insert File Name");
-		
+
 		Button btnBrowse = new Button(uploadShell, SWT.NONE);
 		btnBrowse.setBounds(203, 27, 94, 28);
 		btnBrowse.setText("Browse");
 		btnBrowse.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+
 //				DirectoryDialog directoryDialog = new DirectoryDialog(shell);
 				String selectedDir = "";
 //				directoryDialog.setFilterPath(selectedDir);
@@ -265,35 +295,32 @@ public class AuthorGUI {
 //					System.out.println(selectedDir);
 //				}
 				
+				//TODO On upload, move file to common folder
+				
 				FileDialog file = new FileDialog(shell, SWT.SINGLE);
 				file.setFilterNames(new String[] { "Batch Files", "All Files (*.*)" });
-			    file.setFilterExtensions(new String[] { "*.txt", "*.*" });
-			    
-			    file.setFilterPath(selectedDir);
-				
-				String firstFile = file.open();		//Using first file update database in new method???? Passing file path as parameter
+				file.setFilterExtensions(new String[] { "*.txt", "*.*" });
+
+				file.setFilterPath(selectedDir);
+
+				String firstFile = file.open(); // Using first file update database in new method???? Passing file path
+												// as parameter
 				System.out.println(firstFile);
 
 			}
 		});
-		
-		
+
 		Button btnNewJournal = new Button(uploadShell, SWT.CHECK);
 		btnNewJournal.setSelection(false);
-		if(btnNewJournal.getSelection() == true)
-		{
+		if (btnNewJournal.getSelection() == true) {
 			journalCombo.setVisible(false);
 		}
-		
+
 		btnNewJournal.setBounds(84, 81, 135, 18);
 		btnNewJournal.setText("New Journal");
-		
-		
-	
-		
-		populateStringList();
-		
-		
+
+		convertArrayListToString();
+
 		journalCombo.setItems(stringJournals);
 		journalCombo.setBounds(84, 150, 80, 30);
 		journalCombo.addSelectionListener(new SelectionAdapter() {
@@ -303,17 +330,17 @@ public class AuthorGUI {
 
 			}
 		});
-		
+
 		Label reviewerLabel = new Label(uploadShell, SWT.NONE);
 		reviewerLabel.setBounds(200, 150, 200, 30);
-		
+
 		Label reviewerTitle = new Label(uploadShell, SWT.NONE);
 		reviewerTitle.setBounds(200, 120, 80, 30);
 		reviewerTitle.setText("Reviewers");
-		
+
 		Combo reviewerCombo = new Combo(uploadShell, SWT.DROP_DOWN);
 		reviewerCombo.setItems(stringReviewerList);
-		reviewerCombo.setBounds(290,  120,  80,  30);
+		reviewerCombo.setBounds(290, 120, 80, 30);
 		reviewerCombo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -321,35 +348,45 @@ public class AuthorGUI {
 				reviewers[0] = reviewers[1];
 				reviewers[1] = reviewers[2];
 				reviewers[2] = reviewerCombo.getText();
-				
+
 				reviewerLabel.setText(reviewers[0] + ", " + reviewers[1] + ", " + reviewers[2]);
 			}
 		});
 		
-		
-		
+		Button btnAddNewReviewer = new Button(uploadShell, SWT.NONE);
+		btnAddNewReviewer.setText("Add new reviewer");
+		btnAddNewReviewer.setBounds(290, 190, 110, 30);
+		btnAddNewReviewer.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				System.out.println(reviewerCombo.getText());
+				reviewerCombo.add(reviewerCombo.getText());
+				
+			}
+		});
+
 		Button btnUpload = new Button(uploadShell, SWT.NONE);
 		btnUpload.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(btnNewJournal.getSelection()) //new Journal
+				if (btnNewJournal.getSelection()) // new Journal
 				{
-					//Pass through reviewers, journal name and add journal file
-				}
-				else if(!btnNewJournal.getSelection()) //Replace journal
+					// Pass through reviewers, journal name and add journal file
+				} else if (!btnNewJournal.getSelection()) // Replace journal
 				{
-					//Find journal in arraylist, overwrite name with new journal name and add new journal while deleting old journal
-					
+					// Find journal in arraylist, overwrite name with new journal name and add new
+					// journal while deleting old journal
+
 				}
-				
-				//Need to pass parameters to database
+
+				// Need to pass parameters to database
 //				display.getActiveShell().close();
 //				uploadShell.close();
 			}
 		});
 		btnUpload.setBounds(349, 226, 75, 25);
 		btnUpload.setText("Upload");
-		
+
 		try {
 			while (!uploadShell.isDisposed()) {
 				if (!display.readAndDispatch()) {
@@ -361,15 +398,14 @@ public class AuthorGUI {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void newJournalCheck(Button b, Combo bar) {
-		if(b.getSelection())
+		if (b.getSelection())
 			bar.setVisible(false);
 		else
 			bar.setVisible(true);
-//		System.out.println(b.getSelection());
 	}
-	
+
 	public static void displayMyJournals() {
 		myJournalGrid = new Composite(mainView, SWT.BORDER);
 		myJournalGrid.setBounds(0, 0, 1100, 900);
@@ -396,14 +432,6 @@ public class AuthorGUI {
 		}
 	}
 
-	public static void populateStringList()
-	{
-		for(int i = 0; i < reviewerList.length; i++)
-			stringReviewerList[i] = reviewerList[i].getName();
-		for(int i = 0; i < journals.length; i++)
-			stringJournals[i] = journals[i].getJournalTitle();
-	}
-	
 	public static void displayReviewedJournals() {
 		reviewedJournalGrid = new Composite(mainView, SWT.BORDER);
 		reviewedJournalGrid.setBounds(0, 0, 1100, 900);
@@ -418,6 +446,30 @@ public class AuthorGUI {
 			// This blocks future labels and stuff???
 			x.setText(reviewedJournals.get(i).getJournalTitle());
 		}
+	}
+
+	// TODO ADD JOURNAL BINDING
+	public static void displayPublishedJournals() {
+		publishedJournalGrid = new Composite(mainView, SWT.BORDER);
+		publishedJournalGrid.setBounds(0, 0, 1100, 900);
+		publishedJournalGrid.setLayout(new RowLayout());
+		for (int i = 0; i < publishedJournals.size(); i++) {
+			Composite tempJournal = new Composite(publishedJournalGrid, SWT.BORDER);
+
+			Label x = new Label(tempJournal, SWT.BORDER);
+			x.setBounds(0, 0, 100, 130);
+			Color c = new Color(display, 237, 232, 99);
+			x.setBackground(c);
+			// This blocks future labels and stuff???
+			x.setText(publishedJournals.get(i).getJournalTitle());
+		}
+	}
+
+	public static void convertArrayListToString() {
+		for (int i = 0; i < reviewerList.length; i++)
+			stringReviewerList[i] = reviewerList[i].getName();
+		for (int i = 0; i < journals.length; i++)
+			stringJournals[i] = journals[i].getJournalTitle();
 	}
 
 	public static void populateReviewerList(List l) {
