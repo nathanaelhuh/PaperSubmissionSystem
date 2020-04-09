@@ -1,4 +1,4 @@
-package test;
+package Code;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;

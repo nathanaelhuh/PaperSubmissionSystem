@@ -1,4 +1,4 @@
-package test;
+package Code;
 
 public class Reviewer extends User {
 	//Currently too much of a pain to use user as a super class so doing it within reviewer instead
