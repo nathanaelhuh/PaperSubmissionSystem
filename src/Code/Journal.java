@@ -36,8 +36,9 @@ public class Journal
 
 	public String journalTitle;
 	public Reviewer reviewers[] = new Reviewer[3];
-	public int status = -1;					//1 means major, 2 means minor, 3 means approved???
+	public int status = -1;					//1 means major, 2 means minor, 3 means approved, 4 means rejected
 	public String summary;
+	public String comments;
 	
 	public String getSummary() {
 		return summary;
@@ -45,6 +46,14 @@ public class Journal
 
 	public void setSummary(String summary) {
 		this.summary = summary;
+	}
+	
+	public String getComments() {
+		return this.comments;
+	}
+	
+	public void setComments(String comments) {
+		this.comments = comments;
 	}
 
 	public Journal(String journalTitle) {

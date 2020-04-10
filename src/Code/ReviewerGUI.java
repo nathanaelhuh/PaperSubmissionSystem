@@ -4,6 +4,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.widgets.TabFolder;
+
+import java.util.ArrayList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Composite;
@@ -18,6 +21,9 @@ import org.eclipse.swt.widgets.List;
 
 public class ReviewerGUI {
 
+	private ArrayList<Journal> reviewedJournals = new ArrayList<Journal>();
+	
+	
 	protected Shell shell;
 	private Text commentBox;
 
@@ -33,7 +39,21 @@ public class ReviewerGUI {
 			e.printStackTrace();
 		}
 	}
-
+	public static int statusToInt(String status) {
+		int sInt = -1;
+		
+		if(status.equals("Major Changes")) {
+			sInt = 1;
+		} else if(status.equals("Minor Changes")) {
+			sInt = 2;
+		} else if(status.equals("Accepted")) {
+			sInt = 3;
+		} else if(status.equals("Rejected")) {
+			sInt = 4;
+		}
+		
+		return sInt;
+	}
 	/**
 	 * Open the window.
 	 */
@@ -144,6 +164,12 @@ public class ReviewerGUI {
 				String selectedJournal = journalList.getText();
 				String selectedChanges = changesList.getText();
 				String comments = commentBox.getText();
+				for(int i = 0; i < reviewedJournals.size(); i++) {
+					if(reviewedJournals.get(i).journalTitle.equals(selectedJournal)) {
+						reviewedJournals.get(i).setStatus(statusToInt(selectedChanges));
+						reviewedJournals.get(i).setComments(comments);
+					}
+				}
 				System.out.println(selectedJournal);
 				System.out.println(selectedChanges);
 				System.out.println(comments);
