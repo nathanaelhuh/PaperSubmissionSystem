@@ -9,6 +9,7 @@ public class DataText {
 	
 	public void updateText(String fileName, String directory, String name, String ID){
 		
+		//directory to file and file name combined.
 		String absolutePath = directory + File.separator + fileName;
 		
 		try {
@@ -30,15 +31,32 @@ public class DataText {
 		
 	}
 	
-	public void textToArray(ArrayList<String> testName, String fileName, String directory) {
+	public void textToArray(ArrayList<String> arrayName, String fileName, String directory) {
 		
 		String absolutePath = directory + File.separator + fileName;
 		
 		try {
-			testName = (ArrayList<String>) Files.readAllLines(Paths.get(absolutePath));
+			arrayName = (ArrayList<String>) Files.readAllLines(Paths.get(absolutePath));
 		}
 		catch (IOException e) {
 			System.out.print("Failed");
 		}
-	}	
+	}
+	
+	public void arrayToText (ArrayList<String> arrayName, String fileName, String directory ) {
+		
+		String absolutePath = directory + File.separator + fileName;
+		
+		try {
+			FileWriter writer = new FileWriter(absolutePath);
+			for (String str: arrayName) {
+				writer.write(str + System.lineSeparator());
+			}
+			writer.close();
+		}
+		catch (IOException e) {
+			System.out.print("Failed");
+		}
+		
+	}
 }

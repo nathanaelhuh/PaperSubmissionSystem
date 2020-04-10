@@ -6,6 +6,7 @@ import java.nio.file.*;
 
 public class AuthorFunctions {
 	//code referenced from geeksforgeeks.org
+	//Files have to exist in both locations
 	public void authorMoveFiles(String file_name, String move_directory) throws IOException {
 
 		Path temp =	Files.move(Paths.get( new java.io.File(".").getCanonicalPath() + File.separator + file_name), Paths.get(move_directory), StandardCopyOption.REPLACE_EXISTING);
@@ -19,6 +20,7 @@ public class AuthorFunctions {
 		}
 	}
 	//code referenced from geeksforgeeks.org
+	//Files have to exist in both locations
 	public void authorCPFiles(String file_name, String move_directory) throws IOException {
 		
 		try {
