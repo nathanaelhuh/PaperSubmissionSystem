@@ -1,5 +1,7 @@
 package Code;
 
+import java.util.ArrayList;
+
 public class Journal 
 {	
 	public String getJournalTitle() {
@@ -38,7 +40,35 @@ public class Journal
 	public Reviewer reviewers[] = new Reviewer[3];
 	public int status = -1;					//1 means major, 2 means minor, 3 means approved???
 	public String summary;
+	public ArrayList<String> reqReviewers = new ArrayList<String>(); 
+	public ArrayList<String> nomReviewers = new ArrayList<String>(); 
+	public ArrayList<String> assReviewers = new ArrayList<String>();
 	
+
+	public ArrayList<String> getAssReviewers() {
+		return assReviewers;
+	}
+
+	public void setAssReviewers(ArrayList<String> assReviewers) {
+		this.assReviewers = assReviewers;
+	}
+
+	public ArrayList<String> getReqReviewers() {
+		return reqReviewers;
+	}
+
+	public void setReqReviewers(ArrayList<String> reqReviewers) {
+		this.reqReviewers = reqReviewers;
+	}
+
+	public ArrayList<String> getNomReviewers() {
+		return nomReviewers;
+	}
+
+	public void setNomReviewers(ArrayList<String> nomReviewers) {
+		this.nomReviewers = nomReviewers;
+	}
+
 	public String getSummary() {
 		return summary;
 	}
