@@ -139,74 +139,6 @@ public class AuthorGUI {
 		GridLayout gridlayout = new GridLayout();
 		gridlayout.numColumns = 8;
 		
-//		myJournalGrid = new Composite(mainView, SWT.V_SCROLL);
-//
-//		myJournalGrid.setBounds(0, 0, 1100, 900);
-//		myJournalGrid.setLayout(gridlayout);
-//		for (int i = 0; i < myJournals.size(); i++) {
-//			Composite tempJournal = new Composite(myJournalGrid, SWT.BORDER);
-//
-//			Button submitForReview = new Button(tempJournal, SWT.NONE);
-//			submitForReview.setText("Submit");
-//			submitForReview.setBounds(50, 100, 50, 30);
-//
-//			Label x = new Label(tempJournal, SWT.BORDER);
-//			x.setBounds(0, 0, 100, 130);
-//			Color c = new Color(display, 110, 176, 216);
-//			x.setBackground(c);
-//			// This blocks future labels and stuff???
-//			x.setText(myJournals.get(i).getJournalTitle() + "\n\n" + "Nominated \nReviewers\n\n"
-//					+ myJournals.get(i).getReviewers()[0].getName() + "\n"
-//					+ myJournals.get(i).getReviewers()[1].getName() + "\n"
-//					+ myJournals.get(i).getReviewers()[2].getName());
-//		}
-		
-		
-//		reviewedJournalGrid = new Composite(mainView, SWT.V_SCROLL);
-//
-//		reviewedJournalGrid.setBounds(0, 0, 900, 800);
-//		reviewedJournalGrid.setLayout(gridlayout);
-//		for (int i = 0; i < reviewedJournals.size(); i++) {
-//			Composite tempJournal = new Composite(reviewedJournalGrid, SWT.BORDER);
-//
-//			Color c = new Color(display, 237, 232, 99);
-//
-//			Label status = new Label(tempJournal, SWT.NONE);
-//			status.setBounds(5, 30, 95, 30);
-//			status.setBackground(c);
-//			if (reviewedJournals.get(i).getStatus() == -1)
-//				status.setText("Status: \nNot Reviewed Yet");
-//			else if (reviewedJournals.get(i).getStatus() == 1)
-//				status.setText("Status: \nMajor Changes Required");
-//			else if (reviewedJournals.get(i).getStatus() == 1)
-//				status.setText("Status: \nMinor Changes Required");
-//			else if (reviewedJournals.get(i).getStatus() == 1)
-//				status.setText("Status: \nApproved Changes Required");
-//			else
-//				status.setText("Status: Error");
-//
-//			Label x = new Label(tempJournal, SWT.BORDER);
-//			x.setBounds(0, 0, 100, 130);
-//			x.setBackground(c);
-//			// This blocks future labels and stuff???
-//			x.setText(reviewedJournals.get(i).getJournalTitle());
-//
-//		}
-//		publishedJournalGrid = new Composite(mainView, SWT.V_SCROLL);
-//
-//		publishedJournalGrid.setBounds(0, 0, 1100, 900);
-//		publishedJournalGrid.setLayout(gridlayout);
-//		for (int i = 0; i < myJournals.size(); i++) {
-//			Composite tempJournal = new Composite(publishedJournalGrid, SWT.BORDER);
-//
-//			Label x = new Label(tempJournal, SWT.BORDER);
-//			x.setBounds(0, 0, 100, 130);
-//			Color c = new Color(display, 94, 186, 125);
-//			x.setBackground(c);
-//			// This blocks future labels and stuff???
-//			x.setText(myJournals.get(i).getJournalTitle());
-//		}
-
 		ToolBar toolBar_1 = new ToolBar(shell, SWT.FLAT | SWT.RIGHT);
 		toolBar_1.setBounds(33, 31, 366, 23);
 
@@ -308,15 +240,19 @@ public class AuthorGUI {
 				file.setFilterPath(selectedDir);
 
 				String firstFile = file.open(); // Using first file update database in new method???? Passing file path
-												// as parameter
+				Path filePath = Paths.get(firstFile);
+				Path fileName = filePath.getFileName();
+				
 				System.out.println(firstFile);
-//				AuthorFunctions af = new AuthorFunctions();
-//				try {
-//					af.authorCPFiles(firstFile, new java.io.File(".").getCanonicalPath());
-//				} catch (IOException e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
+				AuthorFunctions af = new AuthorFunctions();
+				try {
+					String databasePath = new java.io.File(".").getCanonicalPath() + File.separator + Paths.get("Database/Journals") + File.separator + fileName;
+					System.out.println(databasePath);
+					af.authorCPFiles(firstFile, databasePath);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 
