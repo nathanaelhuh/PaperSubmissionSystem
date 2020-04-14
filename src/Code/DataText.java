@@ -7,6 +7,30 @@ import java.util.*;
 
 public class DataText {
 	
+	public void createFile(String fileName, String directory) {
+		
+		String absolutePath = directory + File.separator + fileName;
+		
+		try {
+			
+			File newFile = new File(absolutePath);
+			
+			if(newFile.createNewFile()) {
+				System.out.print("File was created in " + absolutePath + ".");
+			}
+			
+			else {
+				System.out.print("File already exists at location.");
+			}
+			
+		}
+		catch (IOException e) {
+			System.out.print("Failed File Creation");
+		}
+	
+	}
+	
+	
 	public void updateText(String fileName, String directory, String name, String ID){
 		
 		//directory to file and file name combined.
