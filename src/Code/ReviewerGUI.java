@@ -111,15 +111,29 @@ public class ReviewerGUI {
 		List allJournals = new List(browseJournals, SWT.BORDER);
 		allJournals.setLocation(10, 32);
 		allJournals.setSize(152, 168);
+		//TODO: POPULATE THE LIST WITH ALL JOURNAL OBJECTS
 		allJournals.setItems(new String[] {"Journal 1", "Journal 2", "Journal 3"});
 		
 		Label lblPreview = new Label(browseJournals, SWT.CENTER);
 		lblPreview.setBounds(248, 12, 70, 14);
 		lblPreview.setText("Preview");
 		
-		Button btnNewButton_1 = new Button(browseJournals, SWT.NONE);
-		btnNewButton_1.setBounds(10, 203, 152, 27);
-		btnNewButton_1.setText("Request to Review");
+		Button requestToReviewBtn = new Button(browseJournals, SWT.NONE);
+		requestToReviewBtn.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String j = allJournals.getSelection()[0];
+				System.out.println(j);
+				//TODO: Somehow communicate with the editor class that a
+				//review request for this journal has been submitted
+			}
+		});
+		requestToReviewBtn.setBounds(10, 203, 152, 27);
+		requestToReviewBtn.setText("Request to Review");
+		
+		Label removeThisLabel = new Label(browseJournals, SWT.NONE);
+		removeThisLabel.setBounds(205, 38, 229, 14);
+		removeThisLabel.setText("TODO: Either remove this section, or figure out a way to preview the journal");
 		
 		TabItem tbtmReviewJournals = new TabItem(tabFolder, SWT.NONE);
 		tbtmReviewJournals.setText("Review Journal");
@@ -141,11 +155,12 @@ public class ReviewerGUI {
 		
 		Combo journalList = new Combo(reviewJournals, SWT.READ_ONLY);
 		journalList.setBounds(26, 49, 170, 22);
+		//TODO: POPULATE THE LIST WITH ALL JOURNAL OBJECTS (see line 114 above)
 		journalList.setItems(new String[] {"Journal 1", "Journal 2", "Journal 3"});
 		
-		Button btnNewButton = new Button(reviewJournals, SWT.NONE);
-		btnNewButton.setBounds(29, 80, 167, 28);
-		btnNewButton.setText("Open Selected Journal");
+		Button btnOpenSelectedJournal = new Button(reviewJournals, SWT.NONE);
+		btnOpenSelectedJournal.setBounds(29, 80, 167, 28);
+		btnOpenSelectedJournal.setText("Open Selected Journal");
 		
 		Label lblChangesNeeded = new Label(reviewJournals, SWT.NONE);
 		lblChangesNeeded.setAlignment(SWT.CENTER);
