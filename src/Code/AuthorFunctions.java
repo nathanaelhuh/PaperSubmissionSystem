@@ -24,7 +24,7 @@ public class AuthorFunctions {
 	public void authorCPFiles(String file_name, String move_directory) throws IOException {
 		
 		try {
-			Files.copy(Paths.get( new java.io.File(".").getCanonicalPath() + File.separator + file_name), Paths.get(move_directory), StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(Paths.get(file_name), Paths.get(move_directory), StandardCopyOption.REPLACE_EXISTING);
 			
 		}catch (IOException e) {
 			System.out.println("Failed");
