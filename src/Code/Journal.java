@@ -26,17 +26,25 @@ public class Journal
 			System.out.println("Not 3 reviewers");
 	}
 
-	public int getStatus() {
+	public int[] getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
-		this.status = status;
+	public void setStatus(int s) {
+		if(status[0] == -1) {
+			status[0] = s;
+		} else if (status[1] == -1) {
+			status[1] = s;
+		} else if (status[2] == -1) {
+			status[2] = s;
+		} else {
+			System.out.println("Could not set status");
+		}
 	}
 
 	public String journalTitle;
 	public Reviewer reviewers[] = new Reviewer[3];
-	public int status = -1;					//1 means major, 2 means minor, 3 means approved, 4 means rejected
+	public int[] status = {-1, -1, -1};	//1 means major, 2 means minor, 3 means approved, 4 means rejected
 	public String summary;
 	public String comments;
 	
