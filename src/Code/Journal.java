@@ -92,7 +92,7 @@ public class Journal
 			s = s.concat(reqReviewers[i]+",");
 		}
 			//MIGHT MAKE INTO For loop for Status array
-		s.concat(summary);
+		s = s.concat(summary);
 		//TODO Add nominated reviewers and requested reviewers
 		System.out.println("STRING " + s);
 		return s;

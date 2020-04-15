@@ -64,7 +64,7 @@ public class DataText {
 		ArrayList<String> ret = new ArrayList<String>();
 		System.out.println(absolutePath);
 		try {
-			ret = (ArrayList<String>) Files.readAllLines(Paths.get(absolutePath));
+			ret = (ArrayList<String>) Files.readAllLines(Paths.get(absolutePath));	
 			
 //			System.out.println(ret.get(3));
 			

@@ -346,8 +346,8 @@ public class AuthorGUI {
 					myJournals.get(getJournalIndex(journalCombo.getText())).setNomReviewers(reviewers);
 					System.out.println("TESTING, " + txtFileName.getText().toString());
 					myJournals.get(getJournalIndex(journalCombo.getText())).setJournalTitle(txtFileName.getText().toString());
+					myJournals.get(getJournalIndex(journalCombo.getText())).setSummary("SUMMARY");
 				}
-				myJournals.get(getJournalIndex(journalCombo.getText())).setSummary("SUMMARy");
 
 				//ARRAY TO DATABASE
 				DataText dt = new DataText();

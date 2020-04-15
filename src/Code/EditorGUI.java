@@ -30,6 +30,8 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.jface.viewers.TableViewer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.swt.widgets.TableItem;
@@ -46,7 +48,6 @@ public class EditorGUI {
 	public static ArrayList<Journal> myJournals = new ArrayList<Journal>();
 	public static ArrayList<Journal> reviewedJournals = new ArrayList<Journal>();
 	public int currentJournal;
-	private Text summaryText2;
 	/**
 	 * Launch the application.
 	 * @param args
@@ -65,24 +66,24 @@ public class EditorGUI {
 		myJournals.add(new Journal("Journal 1"));
 		myJournals.add(new Journal("Journal 2"));
 		myJournals.add(new Journal("Journal 3"));
-		populateReviewers();
+//		populateReviewers();
 		populateSummaries();
 		populateReqReviewers();
 		populateNomReviewers();
-		initAssReviewers();
+		populateAssReviewers();
 	}
 	
-	public static void populateReviewers() {
-		for(int i = 0; i < myJournals.size(); i++)
-		{
-			Reviewer[] newReviewers = new Reviewer[3];
-			newReviewers[0] = new Reviewer("Paul");
-			newReviewers[1] = new Reviewer("Josh");
-			newReviewers[2] = new Reviewer("Guy");
-			
-			myJournals.get(i).setReviewers(newReviewers);
-		}
-	}
+//	public static void populateReviewers() {
+//		for(int i = 0; i < myJournals.size(); i++)
+//		{
+//			Reviewer[] newReviewers = new Reviewer[3];
+//			newReviewers[0] = new Reviewer("Paul");
+//			newReviewers[1] = new Reviewer("Josh");
+//			newReviewers[2] = new Reviewer("Guy");
+//			
+//			myJournals.get(i).setNomReviewers(newReviewers.toString());
+//		}
+//	}
 	public static void populateSummaries() {
 		myJournals.get(0).setSummary("Summary of Journal 1");
 		myJournals.get(1).setSummary("Summary of Journal 2");
@@ -90,38 +91,52 @@ public class EditorGUI {
 	}
 
 	public static void populateReqReviewers() {
-		myJournals.get(0).reqReviewers.add("j1r1");
-		myJournals.get(0).reqReviewers.add("j1r2");
-		myJournals.get(0).reqReviewers.add("j1r3");
+		myJournals.get(0).reqReviewers[0] = "j1r1";
+		myJournals.get(0).reqReviewers[1] = "j1r2";
+		myJournals.get(0).reqReviewers[2] = "j1r3";
 		
-		myJournals.get(1).reqReviewers.add("j2r1");
-		myJournals.get(1).reqReviewers.add("j2r2");
-		myJournals.get(1).reqReviewers.add("j2r3");
+		myJournals.get(1).reqReviewers[0] = "j2r1";
+		myJournals.get(1).reqReviewers[1] = "j2r2";
+		myJournals.get(1).reqReviewers[2] = "j2r3";
 		
-		myJournals.get(2).reqReviewers.add("j3r1");
-		myJournals.get(2).reqReviewers.add("j3r2");
-		myJournals.get(2).reqReviewers.add("j3r3");
+		myJournals.get(2).reqReviewers[0] = "j3r1";
+		myJournals.get(2).reqReviewers[1] = "j3r2";
+		myJournals.get(2).reqReviewers[2] = "j3r3";
 	}
 	
 	public static void populateNomReviewers() {
-		myJournals.get(0).nomReviewers.add("j1r4");
-		myJournals.get(0).nomReviewers.add("j1r5");
-		myJournals.get(0).nomReviewers.add("j1r6");
+		myJournals.get(0).nomReviewers[0] = "j1r4";
+		myJournals.get(0).nomReviewers[1] = "j1r5";
+		myJournals.get(0).nomReviewers[2] = "j1r6";
 		
-		myJournals.get(1).nomReviewers.add("j2r4");
-		myJournals.get(1).nomReviewers.add("j2r5");
-		myJournals.get(1).nomReviewers.add("j2r6");
+		myJournals.get(1).nomReviewers[0] = "j2r4";
+		myJournals.get(1).nomReviewers[1] = "j2r5";
+		myJournals.get(1).nomReviewers[2] = "j2r6";
 		
-		myJournals.get(2).nomReviewers.add("j3r4");
-		myJournals.get(2).nomReviewers.add("j3r5");
-		myJournals.get(2).nomReviewers.add("j3r6");
+		myJournals.get(2).nomReviewers[0] = "j3r4";
+		myJournals.get(2).nomReviewers[1] = "j3r5";
+		myJournals.get(2).nomReviewers[2] = "j3r6";
 	}
-	
+	public static void populateAssReviewers() {
+		myJournals.get(0).assReviewers[0] = "";
+		myJournals.get(0).assReviewers[1] = "";
+		myJournals.get(0).assReviewers[2] = "";
+		
+		myJournals.get(1).assReviewers[0] = "";
+		myJournals.get(1).assReviewers[1] = "";
+		myJournals.get(1).assReviewers[2] = "";
+		
+		myJournals.get(2).assReviewers[0] = "";
+		myJournals.get(2).assReviewers[1] = "";
+		myJournals.get(2).assReviewers[2] = "";
+	}
+	/*
 	public static void initAssReviewers() {
 		myJournals.get(0).assReviewers.ensureCapacity(3);
 		myJournals.get(1).assReviewers.ensureCapacity(3);
 		myJournals.get(2).assReviewers.ensureCapacity(3);
 	}
+	*/
 	/**
 	 * Open the window.
 	 */
@@ -146,11 +161,9 @@ public class EditorGUI {
 		shell.setSize(715, 490);
 		shell.setText("Paper Submission");
 		
-		Color white = new Color(display, 255, 255, 255);
-		
-		//
-		//Logout button to send back to homescreen
-		//
+		/**
+		* Logout button to send back to home screen
+		*/
 		Button LogOut = new Button(shell, SWT.NONE);
 		LogOut.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -177,11 +190,14 @@ public class EditorGUI {
 		lblPapers.setText("Papers:");
 		lblPapers.setBackground(SWTResourceManager.getColor(255, 255, 255));
 		lblPapers.setBounds(10, 10, 55, 15);
-		
+		/*
 		Button btnDownloadPaper = new Button(NewSubComp, SWT.NONE);
 		btnDownloadPaper.setText("Download Paper");
 		btnDownloadPaper.setBounds(164, 87, 120, 25);
-		
+		*/
+		/**
+		 * Fills the displayed list with journals
+		 */		
 		List paperList = new List(NewSubComp, SWT.BORDER);
 		paperList.setItems(new String[] {});
 		for(int i = 0; i < myJournals.size(); i++){
@@ -222,14 +238,17 @@ public class EditorGUI {
 		summaryText.setEditable(false);
 		summaryText.setBounds(290, 31, 391, 120);
 		
-		
+		/**
+		 * button to remove selected reviewer from assigned reviewers
+		 */
 		Button btnRemoveReviewer = new Button(NewSubComp, SWT.NONE);
 		btnRemoveReviewer.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int selectedAssReviewer = assReviewerList.getSelectionIndex();
 				if (selectedAssReviewer != -1) {
-					myJournals.get(currentJournal).assReviewers.remove(myJournals.get(currentJournal).getAssReviewers().get(selectedAssReviewer));
+					myJournals.get(currentJournal).assReviewers[selectedAssReviewer] = "";
+					//myJournals.get(currentJournal).assReviewers.remove(myJournals.get(currentJournal).getAssReviewers().get(selectedAssReviewer));
 					assReviewerList.remove(selectedAssReviewer);;
 				}
 				paperList.deselectAll();
@@ -241,6 +260,9 @@ public class EditorGUI {
 		btnRemoveReviewer.setText("Remove Reviewer");
 		btnRemoveReviewer.setBounds(50, 309, 182, 25);
 		
+		/**
+		 * button to add selected reviewer from either nominated reviewer list or from requested reviewer list
+		 */
 		Button btnAddReviewer = new Button(NewSubComp, SWT.NONE);
 		btnAddReviewer.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -249,14 +271,30 @@ public class EditorGUI {
 				int selectedReqReviewer = nomReviewerList.getSelectionIndex();
 				if (selectedNomReviewer != -1 || selectedReqReviewer != -1) {
 					if (selectedReqReviewer == -1) {
-						assReviewerList.add(myJournals.get(currentJournal).getReqReviewers().get(selectedNomReviewer));
-						myJournals.get(currentJournal).assReviewers.add(myJournals.get(currentJournal).getReqReviewers().get(selectedNomReviewer));
+						assReviewerList.add(myJournals.get(currentJournal).getReqReviewers()[selectedNomReviewer]);
+						
+						myJournals.get(currentJournal).assReviewers[assReviewerList.getItemCount()-1] = myJournals.get(currentJournal).getReqReviewers()[selectedNomReviewer];
+						/*
+						for (int i=0; i < myJournals.get(currentJournal).assReviewers.length; i++) {
+							if (myJournals.get(currentJournal).assReviewers[i] == "") {
+								myJournals.get(currentJournal).assReviewers[i] = myJournals.get(currentJournal).getReqReviewers()[selectedNomReviewer];
+							}
+						}
+						*/
+							//myJournals.get(currentJournal).assReviewers.add(myJournals.get(currentJournal).getReqReviewers()[selectedNomReviewer]);
 					}
 					if (selectedNomReviewer == -1) {
-						assReviewerList.add(myJournals.get(currentJournal).getNomReviewers().get(selectedReqReviewer));
-						myJournals.get(currentJournal).assReviewers.add(myJournals.get(currentJournal).getNomReviewers().get(selectedReqReviewer));
+						assReviewerList.add(myJournals.get(currentJournal).getNomReviewers()[selectedReqReviewer]);
+						for (int i=0; i < myJournals.get(currentJournal).assReviewers.length; i++) {
+							if (myJournals.get(currentJournal).assReviewers[i] == "") {
+								myJournals.get(currentJournal).assReviewers[i] = myJournals.get(currentJournal).getNomReviewers()[selectedReqReviewer];
+							}
+						}
+						
+						//myJournals.get(currentJournal).assReviewers.add(myJournals.get(currentJournal).getNomReviewers().get(selectedReqReviewer));
 					}
 				}
+				//clears lists from selections
 					paperList.deselectAll();
 					nomReviewerList.deselectAll();
 					reqReviewerList.deselectAll();
@@ -266,7 +304,9 @@ public class EditorGUI {
 		btnAddReviewer.setText("Add Reviewer");
 		btnAddReviewer.setBounds(50, 261, 182, 25);
 		
-		
+		/**
+		 * 
+		 */
 		Button btnCheckPaper = new Button(NewSubComp, SWT.NONE);
 		btnCheckPaper.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -278,67 +318,93 @@ public class EditorGUI {
 					assReviewerList.removeAll();
 					summaryText.setText(myJournals.get(selectedJournal).getSummary());
 					if (selectedJournal == 0) {
-						for(int i = 0; i < 3; i++){
+						//for(int i = 0; i < 3; i++){
 							currentJournal = 0;
-						}
-						if (!myJournals.get(currentJournal).getAssReviewers().isEmpty()) {
-							for(int i = 0; i < myJournals.get(currentJournal).getAssReviewers().size(); i++){
-								assReviewerList.add(myJournals.get(currentJournal).getAssReviewers().get(i));
+						//if (myJournals.get(currentJournal).assReviewers.length != 0) {
+							for(int j = 0; j < 3; j++){
+								assReviewerList.add(myJournals.get(currentJournal).getAssReviewers()[j], j);
 							}
-						}
-						if (!myJournals.get(currentJournal).getReqReviewers().isEmpty()) {
-							for(int i = 0; i < myJournals.get(currentJournal).getReqReviewers().size(); i++){
-								reqReviewerList.add(myJournals.get(currentJournal).getReqReviewers().get(i));
+						//}
+						//if (!myJournals.get(currentJournal).getReqReviewers().isEmpty()) {
+							for(int j = 0; j < 3; j++){
+								reqReviewerList.add(myJournals.get(currentJournal).getReqReviewers()[j], j);
 							}
-						}
-						if (!myJournals.get(currentJournal).getNomReviewers().isEmpty()) {
-							for(int i = 0; i < myJournals.get(currentJournal).getNomReviewers().size(); i++){
-								nomReviewerList.add(myJournals.get(currentJournal).getNomReviewers().get(i));
+						//}
+						//if (!myJournals.get(currentJournal).getNomReviewers().isEmpty()) {
+							for(int j = 0; j < 3; j++){
+								nomReviewerList.add(myJournals.get(currentJournal).getNomReviewers()[j], j);
 							}
-						}
-							
+						//}
+						///}
 					}
 					if (selectedJournal == 1) {
 						for(int i = 0; i < 3; i++){
 							currentJournal = 1;
 						}
-						if (!myJournals.get(currentJournal).getAssReviewers().isEmpty()) {
-							for(int i = 0; i < myJournals.get(currentJournal).getAssReviewers().size(); i++){
-								assReviewerList.add(myJournals.get(currentJournal).getAssReviewers().get(i));
+						//if (!myJournals.get(currentJournal).getAssReviewers().isEmpty()) {
+							for(int i = 0; i < 3; i++){
+								assReviewerList.add(myJournals.get(currentJournal).getAssReviewers()[i]);
 							}
-						}
-						if (!myJournals.get(currentJournal).getReqReviewers().isEmpty()) {
-							for(int i = 0; i < myJournals.get(currentJournal).getReqReviewers().size(); i++){
-								reqReviewerList.add(myJournals.get(currentJournal).getReqReviewers().get(i));
+						//}
+						//if (!myJournals.get(currentJournal).getReqReviewers().isEmpty()) {
+							for(int i = 0; i < 3; i++){
+								reqReviewerList.add(myJournals.get(currentJournal).getReqReviewers()[i]);
 							}
-						}
-						if (!myJournals.get(currentJournal).getNomReviewers().isEmpty()) {
-							for(int i = 0; i < myJournals.get(currentJournal).getNomReviewers().size(); i++){
-								nomReviewerList.add(myJournals.get(currentJournal).getNomReviewers().get(i));
+						//}
+						//if (!myJournals.get(currentJournal).getNomReviewers().isEmpty()) {
+							for(int i = 0; i < 3; i++){
+								nomReviewerList.add(myJournals.get(currentJournal).getNomReviewers()[i]);
 							}
-						}
-						
+						//}
 					}
 					if (selectedJournal == 2) {
 						for(int i = 0; i < 3; i++){
 							currentJournal = 2;
 						}
-						if (!myJournals.get(currentJournal).getAssReviewers().isEmpty()) {
-							for(int i = 0; i < myJournals.get(currentJournal).getAssReviewers().size(); i++){
-								assReviewerList.add(myJournals.get(currentJournal).getAssReviewers().get(i));
+						//if (!myJournals.get(currentJournal).getAssReviewers().isEmpty()) {
+							for(int i = 0; i < 3; i++){
+								assReviewerList.add(myJournals.get(currentJournal).getAssReviewers()[i]);
 							}
-						}
-						if (!myJournals.get(currentJournal).getReqReviewers().isEmpty()) {
-							for(int i = 0; i < myJournals.get(currentJournal).getReqReviewers().size(); i++){
-								reqReviewerList.add(myJournals.get(currentJournal).getReqReviewers().get(i));
+						//}
+						//if (!myJournals.get(currentJournal).getReqReviewers().isEmpty()) {
+							for(int i = 0; i < 3; i++){
+								reqReviewerList.add(myJournals.get(currentJournal).getReqReviewers()[i]);
 							}
-						}
-						if (!myJournals.get(currentJournal).getNomReviewers().isEmpty()) {
-							for(int i = 0; i < myJournals.get(currentJournal).getNomReviewers().size(); i++){
-								nomReviewerList.add(myJournals.get(currentJournal).getNomReviewers().get(i));
+						//}
+						//if (!myJournals.get(currentJournal).getNomReviewers().isEmpty()) {
+							for(int i = 0; i < 3; i++){
+								nomReviewerList.add(myJournals.get(currentJournal).getNomReviewers()[i]);
 							}
-						}
+						//}
 						
+					}
+					if (selectedJournal == 3) {
+						for(int i = 0; i < 3; i++){
+							currentJournal = 3;
+						}
+						//if (!myJournals.get(currentJournal).getAssReviewers().isEmpty()) {
+							for(int i = 0; i < 3; i++){
+								assReviewerList.add(myJournals.get(currentJournal).getAssReviewers()[i]);
+							}
+						//}
+						//if (!myJournals.get(currentJournal).getReqReviewers().isEmpty()) {
+							for(int i = 0; i < 3; i++){
+								reqReviewerList.add(myJournals.get(currentJournal).getReqReviewers()[i]);
+							}
+						//}
+						//if (!myJournals.get(currentJournal).getNomReviewers().isEmpty()) {
+							for(int i = 0; i < 3; i++){
+								nomReviewerList.add(myJournals.get(currentJournal).getNomReviewers()[i]);
+							}
+						//}
+					}
+					if (myJournals.get(currentJournal).getAssReviewers()[0] == "") {
+						if (myJournals.get(currentJournal).getAssReviewers()[1] == "") {
+							if (myJournals.get(currentJournal).getAssReviewers()[2] == "") {
+														assReviewerList.removeAll();
+							}
+						}
+
 					}
 				}
 				paperList.deselectAll();
@@ -373,11 +439,11 @@ public class EditorGUI {
 		Button btnDenyPaper_2 = new Button(ReviewedPapersComp, SWT.NONE);
 		btnDenyPaper_2.setText("Deny Paper");
 		btnDenyPaper_2.setBounds(50, 309, 182, 25);
-		
+		/*
 		Button btnDownloadPaper_2 = new Button(ReviewedPapersComp, SWT.NONE);
 		btnDownloadPaper_2.setText("Download Paper");
 		btnDownloadPaper_2.setBounds(164, 87, 120, 25);
-		
+		*/
 		List listPaper2 = new List(ReviewedPapersComp, SWT.BORDER);
 		listPaper2.setItems(new String[] {});
 		for(int i = 0; i < myJournals.size(); i++){
