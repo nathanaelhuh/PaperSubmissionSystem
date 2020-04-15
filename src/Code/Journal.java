@@ -4,6 +4,13 @@ import java.util.ArrayList;
 
 public class Journal 
 {	
+	public String journalTitle = "";
+	public int[] status = new int[3];					//1 means major, 2 means minor, 3 means approved???
+	public String summary = "";
+	public String[] reqReviewers = new String[3]; 
+	public String[] nomReviewers = new String[3];
+	public String[] assReviewers = new String[3];
+	
 	public String getJournalTitle() {
 		return journalTitle;
 	}
@@ -12,61 +19,43 @@ public class Journal
 		this.journalTitle = journalTitle;
 	}
 
-	public Reviewer[] getReviewers() {
-		return reviewers;
-	}
-
-	public void setReviewers(Reviewer[] reviewers) {
-		if(reviewers.length == 3)
-		{
-			for(int i = 0; i < 3; i++)	//TODO: Swap out for magic variable number
-			{
-				this.reviewers[i] = reviewers[i];
-			}
-		}
-		else
-			System.out.println("Not 3 reviewers");
-	}
-
-	public int getStatus() {
+	public int[] getStatus() {
 		return status;
 	}
 
-	public void setStatus(int status) {
-		this.status = status;
+	public void setStatus(int[] status) {
+		for(int i = 0; i < status.length; i++)
+			this.status[i] = status[i];
 	}
 
-	public String journalTitle;
-	public Reviewer reviewers[] = new Reviewer[3];
-	public int status = -1;					//1 means major, 2 means minor, 3 means approved???
-	public String summary;
-	public ArrayList<String> reqReviewers = new ArrayList<String>(); 
-	public ArrayList<String> nomReviewers = new ArrayList<String>(); 
-	public ArrayList<String> assReviewers = new ArrayList<String>();
 	
 
-	public ArrayList<String> getAssReviewers() {
-		return assReviewers;
-	}
 
-	public void setAssReviewers(ArrayList<String> assReviewers) {
-		this.assReviewers = assReviewers;
-	}
-
-	public ArrayList<String> getReqReviewers() {
+	public String[] getReqReviewers() {
 		return reqReviewers;
 	}
 
-	public void setReqReviewers(ArrayList<String> reqReviewers) {
-		this.reqReviewers = reqReviewers;
+	public void setReqReviewers(String[] reqReviewers) {
+		for(int i = 0; i < reqReviewers.length; i++)
+			this.reqReviewers[i] = reqReviewers[i];
 	}
 
-	public ArrayList<String> getNomReviewers() {
+	public String[] getNomReviewers() {
 		return nomReviewers;
 	}
 
-	public void setNomReviewers(ArrayList<String> nomReviewers) {
-		this.nomReviewers = nomReviewers;
+	public void setNomReviewers(String[] nomReviewers) {
+		for(int i = 0; i < nomReviewers.length; i++)
+			this.nomReviewers[i] = nomReviewers[i];
+	}
+
+	public String[] getAssReviewers() {
+		return assReviewers;
+	}
+
+	public void setAssReviewers(String[] assReviewers) {
+		for(int i = 0; i < reqReviewers.length; i++)
+			this.nomReviewers[i] = nomReviewers[i];
 	}
 
 	public String getSummary() {
@@ -79,5 +68,29 @@ public class Journal
 
 	public Journal(String journalTitle) {
 		this.journalTitle = journalTitle;
+	}
+	//Constructor for author upload
+	public Journal(String journalTitle, String summary, String[] nomReviewers) {
+		this.journalTitle = journalTitle;
+		this.summary = summary;
+		this.setNomReviewers(nomReviewers);
+	}
+	public String toString()
+	{
+		String s = journalTitle + ",";
+		for(int i = 0; i < 3; i++)
+		{
+			s = s.concat(assReviewers[i]+",");
+			s = s.concat(Integer.toString(status[i]) + ",");
+			s = s.concat(nomReviewers[i]+",");
+			s = s.concat(reqReviewers[i]+",");
+		}
+			//MIGHT MAKE INTO For loop for Status array
+		s.concat(summary);
+		//TODO Add nominated reviewers and requested reviewers
+		System.out.println("STRING " + s);
+		return s;
+		
+		
 	}
 }
