@@ -105,18 +105,13 @@ public class ReviewerGUI {
 		tbtmBrowseJournals.setControl(browseJournals);
 		
 		Label lblJournals = new Label(browseJournals, SWT.NONE);
-		lblJournals.setBounds(45, 12, 59, 14);
+		lblJournals.setBounds(53, 10, 59, 14);
 		lblJournals.setText("Journals");
 		
 		List allJournals = new List(browseJournals, SWT.BORDER);
 		allJournals.setLocation(10, 32);
 		allJournals.setSize(152, 168);
-		//TODO: POPULATE THE LIST WITH ALL JOURNAL OBJECTS
-		allJournals.setItems(new String[] {"Journal 1", "Journal 2", "Journal 3"});
-		
-		Label lblPreview = new Label(browseJournals, SWT.CENTER);
-		lblPreview.setBounds(248, 12, 70, 14);
-		lblPreview.setText("Preview");
+		allJournals.setItems(databaseDownload());
 		
 		Button requestToReviewBtn = new Button(browseJournals, SWT.NONE);
 		requestToReviewBtn.addSelectionListener(new SelectionAdapter() {
@@ -130,10 +125,6 @@ public class ReviewerGUI {
 		});
 		requestToReviewBtn.setBounds(10, 203, 152, 27);
 		requestToReviewBtn.setText("Request to Review");
-		
-		Label removeThisLabel = new Label(browseJournals, SWT.NONE);
-		removeThisLabel.setBounds(205, 38, 229, 14);
-		removeThisLabel.setText("TODO: Either remove this section, or figure out a way to preview the journal");
 		
 		TabItem tbtmReviewJournals = new TabItem(tabFolder, SWT.NONE);
 		tbtmReviewJournals.setText("Review Journal");
@@ -155,8 +146,13 @@ public class ReviewerGUI {
 		
 		Combo journalList = new Combo(reviewJournals, SWT.READ_ONLY);
 		journalList.setBounds(26, 49, 170, 22);
-		//TODO: POPULATE THE LIST WITH ALL JOURNAL OBJECTS (see line 114 above)
-		journalList.setItems(new String[] {"Journal 1", "Journal 2", "Journal 3"});
+		journalList.setItems(databaseDownload());
+		String[] temp = databaseDownload();
+		for(int i = 0; i < temp.length; i++) {
+			System.out.println(temp[0]);
+		}
+		System.out.println("this was reached");
+		//journalList.setItems(new String[] {"Journal 1", "Journal 2", "Journal 3"});
 		
 		Button btnOpenSelectedJournal = new Button(reviewJournals, SWT.NONE);
 		btnOpenSelectedJournal.setBounds(29, 80, 167, 28);
@@ -194,4 +190,32 @@ public class ReviewerGUI {
 		btnSubmit.setText("Submit");
 
 	}
+
+	public static String[] databaseDownload() {
+		System.out.println(":(");
+		ArrayList<Journal> allJournals = new ArrayList<Journal>();
+		DataText dt = new DataText();
+		ArrayList<String> tempData = new ArrayList<String>();
+		ArrayList<String> temp2 = new ArrayList<String>();
+		temp2 = dt.textToArray("reviewedJournals.txt", System.getProperty("user.dir"));
+		System.out.println("we need non zero here:" + temp2.size());
+		for(int i = 0; i < temp2.size(); i++) {
+			System.out.println(temp2.get(i));
+			String temps[] = temp2.get(i).split(",");
+			System.out.println(temps[0]);
+			Journal temp1 = new Journal(temps[0]);
+			Reviewer rev1 = new Reviewer(temps[1]);
+			Reviewer rev2 = new Reviewer(temps[2]);
+			Reviewer rev3 = new Reviewer(temps[3]);
+			temp1.setReviewers(new Reviewer[] {rev1, rev2, rev3});
+			allJournals.add(temp1);
+		}
+		String[] titleResult = new String[allJournals.size()];
+		for(int i = 0; i < titleResult.length; i++) {
+			titleResult[i] = allJournals.get(i).getJournalTitle();
+			System.out.println("this is running");
+		}
+		return titleResult;
+	}
+
 }
