@@ -5,6 +5,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.widgets.TabFolder;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import org.eclipse.swt.SWT;
@@ -21,7 +24,7 @@ import org.eclipse.swt.widgets.List;
 
 public class ReviewerGUI {
 
-	private ArrayList<Journal> reviewedJournals = new ArrayList<Journal>();
+	private static ArrayList<Journal> reviewedJournals = new ArrayList<Journal>();
 	
 	
 	protected Shell shlReviewerView;
@@ -76,6 +79,8 @@ public class ReviewerGUI {
 		shlReviewerView = new Shell();
 		shlReviewerView.setSize(700, 450);
 		shlReviewerView.setText("Reviewer View");
+		
+		databaseDownload();
 		
 		Button btnLogOut = new Button(shlReviewerView, SWT.NONE);
 		btnLogOut.addSelectionListener(new SelectionAdapter() {
@@ -177,13 +182,21 @@ public class ReviewerGUI {
 				String comments = commentBox.getText();
 				for(int i = 0; i < reviewedJournals.size(); i++) {
 					if(reviewedJournals.get(i).journalTitle.equals(selectedJournal)) {
-						reviewedJournals.get(i).setStatus(statusToInt(selectedChanges));
+						int[] firstStatus = {statusToInt(selectedChanges), -1, -1};
+						reviewedJournals.get(i).setStatus(firstStatus);
 						reviewedJournals.get(i).setComments(comments);
 					}
 				}
 				System.out.println(selectedJournal);
 				System.out.println(selectedChanges);
 				System.out.println(comments);
+				DataText dt = new DataText();
+				try {
+					dt.arrayToText(myJournalsString(), "reviewedJournals.txt", new java.io.File(".").getCanonicalPath() + File.separator + Paths.get("Database"));
+				} catch (IOException e1) {
+					System.out.println("Failed Array to Text");
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnSubmit.setBounds(258, 80, 102, 28);
@@ -196,18 +209,47 @@ public class ReviewerGUI {
 		ArrayList<Journal> allJournals = new ArrayList<Journal>();
 		DataText dt = new DataText();
 		ArrayList<String> temp2 = new ArrayList<String>();
-		temp2 = dt.textToArray("reviewedJournals.txt", System.getProperty("user.dir"));
+		String databasePath = "";
+		try {
+			databasePath = new java.io.File(".").getCanonicalPath() + File.separator + Paths.get("Database");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		temp2 = dt.textToArray("reviewedJournals.txt", databasePath);
 		System.out.println("we need non zero here:" + temp2.size());
 		for(int i = 0; i < temp2.size(); i++) {
 			System.out.println(temp2.get(i));
 			String temps[] = temp2.get(i).split(",");
 			System.out.println(temps[0]);
 			Journal myJournal = new Journal(temps[0]);
-			Reviewer rev1 = new Reviewer(temps[1]);
-			Reviewer rev2 = new Reviewer(temps[2]);
-			Reviewer rev3 = new Reviewer(temps[3]);
-			myJournal.setReviewers(new Reviewer[] {rev1, rev2, rev3});
+			int status1 = Integer.parseInt(temps[1]);
+			String aRev1 = temps[2];
+			String nRev1 = temps[3];
+			String rRev1 = temps[4];
+			int status2 = Integer.parseInt(temps[5]);
+			String aRev2 = temps[6];
+			String nRev2 = temps[7];
+			String rRev2 = temps[8];
+			int status3 = Integer.parseInt(temps[9]);
+			String aRev3 = temps[10];
+			String nRev3 = temps[11];
+			String rRev3 = temps[12];
+			String summary = temps[13];
+			
+			String[] aReviewers = {aRev1, aRev2, aRev3};
+			String[] nReviewers = {nRev1, nRev2, nRev3};
+			String[] rReviewers = {rRev1, rRev2, rRev3};
+			int[] status = {status1, status2, status3};
+			
+			myJournal.setAssReviewers(aReviewers);
+			myJournal.setNomReviewers(nReviewers);
+			myJournal.setReqReviewers(rReviewers);
+			myJournal.setStatus(status);
 			allJournals.add(myJournal);
+			
+			System.out.println("TWOAH " + allJournals.get(0).getJournalTitle());
 		}
 		String[] titleResult = new String[allJournals.size()];
 		for(int i = 0; i < titleResult.length; i++) {
@@ -215,6 +257,14 @@ public class ReviewerGUI {
 			System.out.println("this is running");
 		}
 		return titleResult;
+	}
+	
+	public static ArrayList<String> myJournalsString()
+	{
+		ArrayList<String> s = new ArrayList<String>();
+		for(int i = 0; i < reviewedJournals.size(); i++)
+			s.add(reviewedJournals.get(i).toString());
+		return s;
 	}
 
 }

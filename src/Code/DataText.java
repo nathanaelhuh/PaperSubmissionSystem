@@ -60,13 +60,13 @@ public class DataText {
 		String absolutePath = directory + File.separator + fileName;
 		
 		ArrayList<String> ret = new ArrayList<String>();
-		
+		System.out.println(absolutePath);
 		try {
 			ret = (ArrayList<String>) Files.readAllLines(Paths.get(absolutePath));
-			System.out.println(ret.size());
-			System.out.println(ret.get(3));
 			
-			return ret;
+//			System.out.println(ret.get(3));
+			
+//			return ret;
 		}
 		catch (IOException e) {
 			System.out.print("Failed");

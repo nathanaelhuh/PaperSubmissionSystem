@@ -25,16 +25,9 @@ public class Journal
 		return status;
 	}
 
-	public void setStatus(int s) {
-		if(status[0] == -1) {
-			status[0] = s;
-		} else if (status[1] == -1) {
-			status[1] = s;
-		} else if (status[2] == -1) {
-			status[2] = s;
-		} else {
-			System.out.println("Could not set status");
-		}
+	public void setStatus(int[] s) {
+		for(int i = 0; i < s.length; i++)
+			this.status[i] = s[i];
 	}
 
 	public String[] getReqReviewers() {
@@ -93,8 +86,8 @@ public class Journal
 		String s = journalTitle + ",";
 		for(int i = 0; i < 3; i++)
 		{
-			s = s.concat(assReviewers[i]+",");
 			s = s.concat(Integer.toString(status[i]) + ",");
+			s = s.concat(assReviewers[i]+",");
 			s = s.concat(nomReviewers[i]+",");
 			s = s.concat(reqReviewers[i]+",");
 		}

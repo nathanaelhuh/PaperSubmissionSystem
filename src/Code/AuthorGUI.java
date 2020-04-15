@@ -103,6 +103,7 @@ public class AuthorGUI {
 //		populateMyJournals();
 //		populateReviewedJournals();
 //		populatePublishedJournals();
+		databaseDownload();
 		display = Display.getDefault();
 		createContents();
 		shell.open();
@@ -346,6 +347,7 @@ public class AuthorGUI {
 					System.out.println("TESTING, " + txtFileName.getText().toString());
 					myJournals.get(getJournalIndex(journalCombo.getText())).setJournalTitle(txtFileName.getText().toString());
 				}
+				myJournals.get(getJournalIndex(journalCombo.getText())).setSummary("SUMMARy");
 
 				//ARRAY TO DATABASE
 				DataText dt = new DataText();
@@ -522,21 +524,94 @@ public class AuthorGUI {
 		return -1;
 	}
 	
-//	public static void databaseUpload()
-//	{
-//		DataText dt = new DataText();
-//		ArrayList<String> data = new ArrayList<String>();
-//		dt.textToArray(data, fileName, directory);
-//		for(int i = 0; i < data.size(); i++)
-//		{
-//			String[] temp = data.get(i).split(",");
-//			//Parse data.get(i)
-//			//reset myJournal
-//			//myJournal.get(i).setJournalTitle(temp)
-//			parse comma value
-//			
-//		}
-//		
-//	}
+	public static void databaseDownload() {
+	myJournals = new ArrayList<Journal>();
+	reviewedJournals = new ArrayList<Journal>();
+		
+	DataText dt = new DataText();
+	ArrayList<String> reviewedDatabase = new ArrayList<String>();
+	String databasePath = "";
+	try {
+		databasePath = new java.io.File(".").getCanonicalPath() + File.separator + Paths.get("Database");
+	} catch (IOException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	
+	reviewedDatabase = dt.textToArray("reviewedJournals.txt", databasePath);
+	for(int i = 0; i < reviewedDatabase.size(); i++) {
+		System.out.println(reviewedDatabase.get(i));
+		String temps[] = reviewedDatabase.get(i).split(",");
+		System.out.println(temps[0]);
+		Journal reviewedCurrentJournal = new Journal(temps[0]);
+		int status1 = Integer.parseInt(temps[1]);
+		String aRev1 = temps[2];
+		String nRev1 = temps[3];
+		String rRev1 = temps[4];
+		int status2 = Integer.parseInt(temps[5]);
+		String aRev2 = temps[6];
+		String nRev2 = temps[7];
+		String rRev2 = temps[8];
+		int status3 = Integer.parseInt(temps[9]);
+		String aRev3 = temps[10];
+		String nRev3 = temps[11];
+		String rRev3 = temps[12];
+		String summary = temps[13];
+		
+		String[] aReviewers = {aRev1, aRev2, aRev3};
+		String[] nReviewers = {nRev1, nRev2, nRev3};
+		String[] rReviewers = {rRev1, rRev2, rRev3};
+		int[] status = {status1, status2, status3};
+		
+		reviewedCurrentJournal.setAssReviewers(aReviewers);
+		reviewedCurrentJournal.setNomReviewers(nReviewers);
+		reviewedCurrentJournal.setReqReviewers(rReviewers);
+		reviewedCurrentJournal.setStatus(status);
+		reviewedCurrentJournal.setSummary(summary);
+		reviewedJournals.add(reviewedCurrentJournal);
+	}
+	
+	ArrayList<String> myJournalDatabase = new ArrayList<String>();
+	try {
+		databasePath = new java.io.File(".").getCanonicalPath() + File.separator + Paths.get("Database");
+	} catch (IOException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	
+	myJournalDatabase = dt.textToArray("myJournals.txt", databasePath);
+	for(int i = 0; i < myJournalDatabase.size(); i++) {
+		System.out.println(myJournalDatabase.get(i));
+		String temps[] = myJournalDatabase.get(i).split(",");
+		System.out.println(temps[0]);
+		Journal myCurrentJournal = new Journal(temps[0]);
+		int status1 = Integer.parseInt(temps[1]);
+		String aRev1 = temps[2];
+		String nRev1 = temps[3];
+		String rRev1 = temps[4];
+		int status2 = Integer.parseInt(temps[5]);
+		String aRev2 = temps[6];
+		String nRev2 = temps[7];
+		String rRev2 = temps[8];
+		int status3 = Integer.parseInt(temps[9]);
+		String aRev3 = temps[10];
+		String nRev3 = temps[11];
+		String rRev3 = temps[12];
+		String summary = temps[13];
+		
+		String[] aReviewers = {aRev1, aRev2, aRev3};
+		String[] nReviewers = {nRev1, nRev2, nRev3};
+		String[] rReviewers = {rRev1, rRev2, rRev3};
+		int[] status = {status1, status2, status3};
+		
+		myCurrentJournal.setAssReviewers(aReviewers);
+		myCurrentJournal.setNomReviewers(nReviewers);
+		myCurrentJournal.setReqReviewers(rReviewers);
+		myCurrentJournal.setStatus(status);
+		myCurrentJournal.setSummary(summary);
+		myJournals.add(myCurrentJournal);
+	}
+
+}
 	
 }
