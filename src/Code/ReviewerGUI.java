@@ -24,7 +24,7 @@ public class ReviewerGUI {
 	private ArrayList<Journal> reviewedJournals = new ArrayList<Journal>();
 	
 	
-	protected Shell shell;
+	protected Shell shlReviewerView;
 	private Text commentBox;
 
 	/**
@@ -60,9 +60,9 @@ public class ReviewerGUI {
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
-		shell.open();
-		shell.layout();
-		while (!shell.isDisposed()) {
+		shlReviewerView.open();
+		shlReviewerView.layout();
+		while (!shlReviewerView.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
 			}
@@ -73,22 +73,22 @@ public class ReviewerGUI {
 	 * Create contents of the window.
 	 */
 	protected void createContents() {
-		shell = new Shell();
-		shell.setSize(700, 450);
-		shell.setText("SWT Application");
+		shlReviewerView = new Shell();
+		shlReviewerView.setSize(700, 450);
+		shlReviewerView.setText("Reviewer View");
 		
-		Button btnLogOut = new Button(shell, SWT.NONE);
+		Button btnLogOut = new Button(shlReviewerView, SWT.NONE);
 		btnLogOut.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				LoginScreen logout = new LoginScreen();
-				shell.close();
+				shlReviewerView.close();
 				logout.open();
 			}
 		});
 		btnLogOut.setBounds(599, 10, 75, 25);
 		btnLogOut.setText("Log Out");
-		Composite tabs = new Composite(shell, SWT.NONE);
+		Composite tabs = new Composite(shlReviewerView, SWT.NONE);
 		tabs.setBounds(0, 0, 674, 364);
 		
 		StackLayout layout = new StackLayout();
@@ -195,7 +195,6 @@ public class ReviewerGUI {
 		System.out.println(":(");
 		ArrayList<Journal> allJournals = new ArrayList<Journal>();
 		DataText dt = new DataText();
-		ArrayList<String> tempData = new ArrayList<String>();
 		ArrayList<String> temp2 = new ArrayList<String>();
 		temp2 = dt.textToArray("reviewedJournals.txt", System.getProperty("user.dir"));
 		System.out.println("we need non zero here:" + temp2.size());
@@ -203,12 +202,12 @@ public class ReviewerGUI {
 			System.out.println(temp2.get(i));
 			String temps[] = temp2.get(i).split(",");
 			System.out.println(temps[0]);
-			Journal temp1 = new Journal(temps[0]);
+			Journal myJournal = new Journal(temps[0]);
 			Reviewer rev1 = new Reviewer(temps[1]);
 			Reviewer rev2 = new Reviewer(temps[2]);
 			Reviewer rev3 = new Reviewer(temps[3]);
-			temp1.setReviewers(new Reviewer[] {rev1, rev2, rev3});
-			allJournals.add(temp1);
+			myJournal.setReviewers(new Reviewer[] {rev1, rev2, rev3});
+			allJournals.add(myJournal);
 		}
 		String[] titleResult = new String[allJournals.size()];
 		for(int i = 0; i < titleResult.length; i++) {
