@@ -3,6 +3,7 @@ package Code;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -90,8 +91,8 @@ public class AuthorGUI {
 			newReviewers[0] = new Reviewer("Paul");
 			newReviewers[1] = new Reviewer("Josh");
 			newReviewers[2] = new Reviewer("Guy");
-
-			myJournals.get(i).setReviewers(newReviewers);
+//
+//			myJournals.get(i).setNomReviewers(newReviewers);
 		}
 	}
 
@@ -99,9 +100,9 @@ public class AuthorGUI {
 	 * Open the window.
 	 */
 	public void open() {
-		populateMyJournals();
-		populateReviewedJournals();
-		populatePublishedJournals();
+//		populateMyJournals();
+//		populateReviewedJournals();
+//		populatePublishedJournals();
 		display = Display.getDefault();
 		createContents();
 		shell.open();
@@ -139,74 +140,6 @@ public class AuthorGUI {
 		GridLayout gridlayout = new GridLayout();
 		gridlayout.numColumns = 8;
 		
-//		myJournalGrid = new Composite(mainView, SWT.V_SCROLL);
-//
-//		myJournalGrid.setBounds(0, 0, 1100, 900);
-//		myJournalGrid.setLayout(gridlayout);
-//		for (int i = 0; i < myJournals.size(); i++) {
-//			Composite tempJournal = new Composite(myJournalGrid, SWT.BORDER);
-//
-//			Button submitForReview = new Button(tempJournal, SWT.NONE);
-//			submitForReview.setText("Submit");
-//			submitForReview.setBounds(50, 100, 50, 30);
-//
-//			Label x = new Label(tempJournal, SWT.BORDER);
-//			x.setBounds(0, 0, 100, 130);
-//			Color c = new Color(display, 110, 176, 216);
-//			x.setBackground(c);
-//			// This blocks future labels and stuff???
-//			x.setText(myJournals.get(i).getJournalTitle() + "\n\n" + "Nominated \nReviewers\n\n"
-//					+ myJournals.get(i).getReviewers()[0].getName() + "\n"
-//					+ myJournals.get(i).getReviewers()[1].getName() + "\n"
-//					+ myJournals.get(i).getReviewers()[2].getName());
-//		}
-		
-		
-//		reviewedJournalGrid = new Composite(mainView, SWT.V_SCROLL);
-//
-//		reviewedJournalGrid.setBounds(0, 0, 900, 800);
-//		reviewedJournalGrid.setLayout(gridlayout);
-//		for (int i = 0; i < reviewedJournals.size(); i++) {
-//			Composite tempJournal = new Composite(reviewedJournalGrid, SWT.BORDER);
-//
-//			Color c = new Color(display, 237, 232, 99);
-//
-//			Label status = new Label(tempJournal, SWT.NONE);
-//			status.setBounds(5, 30, 95, 30);
-//			status.setBackground(c);
-//			if (reviewedJournals.get(i).getStatus() == -1)
-//				status.setText("Status: \nNot Reviewed Yet");
-//			else if (reviewedJournals.get(i).getStatus() == 1)
-//				status.setText("Status: \nMajor Changes Required");
-//			else if (reviewedJournals.get(i).getStatus() == 1)
-//				status.setText("Status: \nMinor Changes Required");
-//			else if (reviewedJournals.get(i).getStatus() == 1)
-//				status.setText("Status: \nApproved Changes Required");
-//			else
-//				status.setText("Status: Error");
-//
-//			Label x = new Label(tempJournal, SWT.BORDER);
-//			x.setBounds(0, 0, 100, 130);
-//			x.setBackground(c);
-//			// This blocks future labels and stuff???
-//			x.setText(reviewedJournals.get(i).getJournalTitle());
-//
-//		}
-//		publishedJournalGrid = new Composite(mainView, SWT.V_SCROLL);
-//
-//		publishedJournalGrid.setBounds(0, 0, 1100, 900);
-//		publishedJournalGrid.setLayout(gridlayout);
-//		for (int i = 0; i < myJournals.size(); i++) {
-//			Composite tempJournal = new Composite(publishedJournalGrid, SWT.BORDER);
-//
-//			Label x = new Label(tempJournal, SWT.BORDER);
-//			x.setBounds(0, 0, 100, 130);
-//			Color c = new Color(display, 94, 186, 125);
-//			x.setBackground(c);
-//			// This blocks future labels and stuff???
-//			x.setText(myJournals.get(i).getJournalTitle());
-//		}
-
 		ToolBar toolBar_1 = new ToolBar(shell, SWT.FLAT | SWT.RIGHT);
 		toolBar_1.setBounds(33, 31, 366, 23);
 
@@ -275,13 +208,18 @@ public class AuthorGUI {
 		reviewers[0] = "";
 		reviewers[1] = "";
 		reviewers[2] = "";
+		String  stringFileName;
 
 		Combo journalCombo = new Combo(uploadShell, SWT.DROP_DOWN);
 
-		Label lblInsertFileName = new Label(uploadShell, SWT.NONE); // CHANGES
-		lblInsertFileName.setBounds(73, 34, 118, 14);
-		lblInsertFileName.setText("Insert File Name");
-
+//		Label lblInsertFileName = new Label(uploadShell, SWT.NONE); // CHANGES
+//		lblInsertFileName.setBounds(73, 34, 118, 14);
+//		lblInsertFileName.setText("Insert File Name");
+		
+		Text txtFileName = new Text(uploadShell, SWT.BORDER);
+		txtFileName.setBounds(73, 34, 118, 20);
+		txtFileName.setText("Insert File Name");
+		
 		Button btnBrowse = new Button(uploadShell, SWT.NONE);
 		btnBrowse.setBounds(203, 27, 94, 28);
 		btnBrowse.setText("Browse");
@@ -289,16 +227,8 @@ public class AuthorGUI {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
-//				DirectoryDialog directoryDialog = new DirectoryDialog(shell);
 				String selectedDir = "";
-//				directoryDialog.setFilterPath(selectedDir);
-//				directoryDialog.setMessage("Please select a directory and click OK");		//CHANGE TO FILE SELECTION
-//				String dir = directoryDialog.open();
-//				if (dir != null) {
-//					selectedDir = dir;
-//					System.out.println(selectedDir);
-//				}
-				
+
 				//TODO On upload, move file to common folder
 				
 				FileDialog file = new FileDialog(shell, SWT.SINGLE);
@@ -308,15 +238,19 @@ public class AuthorGUI {
 				file.setFilterPath(selectedDir);
 
 				String firstFile = file.open(); // Using first file update database in new method???? Passing file path
-												// as parameter
+				Path filePath = Paths.get(firstFile);
+				Path fileName = filePath.getFileName();
+				
 				System.out.println(firstFile);
-//				AuthorFunctions af = new AuthorFunctions();
-//				try {
-//					af.authorCPFiles(firstFile, new java.io.File(".").getCanonicalPath());
-//				} catch (IOException e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
+				AuthorFunctions af = new AuthorFunctions();
+				try {
+					String databasePath = new java.io.File(".").getCanonicalPath() + File.separator + Paths.get("Database/Journals") + File.separator + fileName;
+					System.out.println(databasePath);
+					af.authorCPFiles(firstFile, databasePath);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 
@@ -387,35 +321,42 @@ public class AuthorGUI {
 		btnUpload.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				//Journal Database style will be: Journal Name
 				if (btnNewJournal.getSelection()) // new Journal
 				{
+					myJournals.add(new Journal(txtFileName.getText().toString(), "Summary", reviewers));
 					// Pass through reviewers, journal name and add journal file
 				} else if (!btnNewJournal.getSelection()) // Replace journal
 				{
 					// Find journal in arraylist, overwrite name with new journal name and add new
 					// journal while deleting old journal.
-					Reviewer[] arrayReviewers = new Reviewer[reviewers.length];
-					for(int i = 0; i < arrayReviewers.length; i++)
-					{
-						arrayReviewers[i] = new Reviewer(reviewers[i]);
-					}
+//					Reviewer[] arrayReviewers = new Reviewer[reviewers.length];
+//					for(int i = 0; i < arrayReviewers.length; i++)
+//					{
+//						arrayReviewers[i] = new Reviewer(reviewers[i]);
+//						arrayReviewers[i].setName(reviewers[i]);
+//					}
 					if(getJournalIndex(journalCombo.getText()) == -1)
 					{
 						MessageBox m = new MessageBox(uploadShell, SWT.NONE);
 						m.setMessage("ERROR Journal Does Not Exist");
 						m.open();
 					}
-					myJournals.get(getJournalIndex(journalCombo.getText())).setReviewers(arrayReviewers);
-					System.out.println("SET");
-					System.out.println(myJournals.get(getJournalIndex(journalCombo.getText())).getReviewers()[0].getName());
-					System.out.println(myJournals.get(getJournalIndex(journalCombo.getText())).getReviewers()[1].getName());
-					System.out.println(myJournals.get(getJournalIndex(journalCombo.getText())).getReviewers()[2].getName());
-
+					myJournals.get(getJournalIndex(journalCombo.getText())).setNomReviewers(reviewers);
+					System.out.println("TESTING, " + txtFileName.getText().toString());
+					myJournals.get(getJournalIndex(journalCombo.getText())).setJournalTitle(txtFileName.getText().toString());
 				}
 
-				// Need to pass parameters to database
-//				display.getActiveShell().close();
-//				uploadShell.close();
+				//ARRAY TO DATABASE
+				DataText dt = new DataText();
+				try {
+					dt.arrayToText(myJournalsString(), "myJournals.txt", new java.io.File(".").getCanonicalPath() + File.separator + Paths.get("Database"));
+				} catch (IOException e1) {
+					System.out.println("Failed Array to Text");
+					e1.printStackTrace();
+				}
+				display.getActiveShell().close();
+				uploadShell.close();
 			}
 		});
 		btnUpload.setBounds(349, 226, 75, 25);
@@ -444,20 +385,38 @@ public class AuthorGUI {
 		myJournalGrid = new Composite(mainView, SWT.BORDER);
 		myJournalGrid.setBounds(0, 0, 1100, 900);
 		myJournalGrid.setLayout(new RowLayout());
-		for (int i = 0; i < myJournals.size(); i++) {
+		for(int i = 0; i < myJournals.size(); i++) {
+			final int j = i;
 			Composite tempJournal = new Composite(myJournalGrid, SWT.BORDER);
 			Button submitForReview = new Button(tempJournal, SWT.NONE);
 			submitForReview.setText("Submit");
 			submitForReview.setBounds(50, 100, 50, 30);
+			submitForReview.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					if(submissionStatus(myJournals.get(j)) == -1)		//DOESNT EXIST YET
+						reviewedJournals.add(myJournals.get(j));
+					else
+						reviewedJournals.set(submissionStatus(myJournals.get(j)), myJournals.get(j));
+					DataText dt = new DataText();
+					try {
+						dt.arrayToText(myJournalsString(), "reviewedJournals.txt", new java.io.File(".").getCanonicalPath() + File.separator + Paths.get("Database"));
+						
+					} catch (IOException e1) {
+						System.out.println("Failed Array to Text");
+						e1.printStackTrace();
+					}
+				}
+			});
 			Label x = new Label(tempJournal, SWT.BORDER);
 			x.setBounds(0, 0, 100, 130);
 			Color c = new Color(display, 110, 176, 216);
 			x.setBackground(c);
 			// This blocks future labels and stuff???
 			x.setText(myJournals.get(i).getJournalTitle() + "\n\n" + "Reviewers\n"
-					+ myJournals.get(i).getReviewers()[0].getName() + "\n"
-					+ myJournals.get(i).getReviewers()[1].getName() + "\n"
-					+ myJournals.get(i).getReviewers()[2].getName());
+					+ myJournals.get(i).getNomReviewers()[0] + "\n"
+					+ myJournals.get(i).getNomReviewers()[1] + "\n"
+					+ myJournals.get(i).getNomReviewers()[2]);
 		}
 	}
 
@@ -469,20 +428,25 @@ public class AuthorGUI {
 			Composite tempJournal = new Composite(reviewedJournalGrid, SWT.BORDER);
 
 			Color c = new Color(display, 237, 232, 99);
-
-			Label status = new Label(tempJournal, SWT.NONE);
-			status.setBounds(5, 30, 95, 30);
-			status.setBackground(c);
-			if (reviewedJournals.get(i).getStatus() == -1)
-				status.setText("Status: \nNot Reviewed Yet");
-			else if (reviewedJournals.get(i).getStatus() == 1)
-				status.setText("Status: \nMajor Changes Required");
-			else if (reviewedJournals.get(i).getStatus() == 1)
-				status.setText("Status: \nMinor Changes Required");
-			else if (reviewedJournals.get(i).getStatus() == 1)
-				status.setText("Status: \nApproved Changes Required");
-			else
-				status.setText("Status: Error");
+			
+			for(int j = 0; j < 3; j++)
+			{
+				Label status = new Label(tempJournal, SWT.NONE);
+				status.setBounds(5, 30*(j+1), 95, 30);
+				status.setBackground(c);
+				if (reviewedJournals.get(i).getStatus()[j] == -1)
+					status.setText("Status: \nNot Reviewed Yet");
+				else if (reviewedJournals.get(i).getStatus()[j] == 1)
+					status.setText("Status: \nMajor Changes Required");
+				else if (reviewedJournals.get(i).getStatus()[j] == 3)
+					status.setText("Status: \nMinor Changes Required");
+				else if (reviewedJournals.get(i).getStatus()[j] == 3)
+					status.setText("Status: \nApproved");
+				else if (reviewedJournals.get(i).getStatus()[j] == 4)
+					status.setText("Status: \nRejected");
+				else
+					status.setText("Status: Error");
+			}
 
 			Label x = new Label(tempJournal, SWT.BORDER);
 			x.setBounds(0, 0, 100, 130);
@@ -540,5 +504,38 @@ public class AuthorGUI {
 		}
 		return -1;
 	}
+	public static ArrayList<String> myJournalsString()
+	{
+		ArrayList<String> s = new ArrayList<String>();
+		for(int i = 0; i < myJournals.size(); i++)
+			s.add(myJournals.get(i).toString());
+		return s;
+	}
+
+	public static int submissionStatus(Journal j) {
+		for(int i = 0; i < reviewedJournals.size(); i++)
+		{
+			if(j.equals(reviewedJournals.get(i)))
+				return i;
+		}
+		return -1;
+	}
+	
+//	public static void databaseUpload()
+//	{
+//		DataText dt = new DataText();
+//		ArrayList<String> data = new ArrayList<String>();
+//		dt.textToArray(data, fileName, directory);
+//		for(int i = 0; i < data.size(); i++)
+//		{
+//			String[] temp = data.get(i).split(",");
+//			//Parse data.get(i)
+//			//reset myJournal
+//			//myJournal.get(i).setJournalTitle(temp)
+//			parse comma value
+//			
+//		}
+//		
+//	}
 	
 }
