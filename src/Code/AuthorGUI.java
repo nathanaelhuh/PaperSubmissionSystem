@@ -448,6 +448,7 @@ public class AuthorGUI {
 					status.setText("Status: Error");
 			}
 
+
 			Label x = new Label(tempJournal, SWT.BORDER);
 			x.setBounds(0, 0, 100, 130);
 			x.setBackground(c);

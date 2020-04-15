@@ -55,16 +55,23 @@ public class DataText {
 		
 	}
 	
-	public void textToArray(ArrayList<String> arrayName, String fileName, String directory) {
+	public ArrayList<String> textToArray(String fileName, String directory) {
 		
 		String absolutePath = directory + File.separator + fileName;
 		
+		ArrayList<String> ret = new ArrayList<String>();
+		
 		try {
-			arrayName = (ArrayList<String>) Files.readAllLines(Paths.get(absolutePath));
+			ret = (ArrayList<String>) Files.readAllLines(Paths.get(absolutePath));
+			System.out.println(ret.size());
+			System.out.println(ret.get(3));
+			
+			return ret;
 		}
 		catch (IOException e) {
 			System.out.print("Failed");
 		}
+		return ret;
 	}
 	
 	public void arrayToText (ArrayList<String> arrayName, String fileName, String directory ) {

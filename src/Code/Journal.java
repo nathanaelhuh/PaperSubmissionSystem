@@ -5,8 +5,10 @@ import java.util.ArrayList;
 public class Journal 
 {	
 	public String journalTitle = "";
-	public int[] status = new int[3];					//1 means major, 2 means minor, 3 means approved???
+	public int[] status = {-1, -1, -1};					//1 means major, 2 means minor, 3 means approved???
 	public String summary = "";
+ 
+	public String comments;
 	public String[] reqReviewers = new String[3]; 
 	public String[] nomReviewers = new String[3];
 	public String[] assReviewers = new String[3];
@@ -23,13 +25,17 @@ public class Journal
 		return status;
 	}
 
-	public void setStatus(int[] status) {
-		for(int i = 0; i < status.length; i++)
-			this.status[i] = status[i];
+	public void setStatus(int s) {
+		if(status[0] == -1) {
+			status[0] = s;
+		} else if (status[1] == -1) {
+			status[1] = s;
+		} else if (status[2] == -1) {
+			status[2] = s;
+		} else {
+			System.out.println("Could not set status");
+		}
 	}
-
-	
-
 
 	public String[] getReqReviewers() {
 		return reqReviewers;
@@ -64,6 +70,13 @@ public class Journal
 
 	public void setSummary(String summary) {
 		this.summary = summary;
+	}
+  	public String getComments() {
+		return this.comments;
+	}
+	
+	public void setComments(String comments) {
+		this.comments = comments;
 	}
 
 	public Journal(String journalTitle) {

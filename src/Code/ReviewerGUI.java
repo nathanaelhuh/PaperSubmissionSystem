@@ -4,6 +4,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.widgets.TabFolder;
+
+import java.util.ArrayList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Composite;
@@ -18,7 +21,10 @@ import org.eclipse.swt.widgets.List;
 
 public class ReviewerGUI {
 
-	protected Shell shell;
+	private ArrayList<Journal> reviewedJournals = new ArrayList<Journal>();
+	
+	
+	protected Shell shlReviewerView;
 	private Text commentBox;
 
 	/**
@@ -33,16 +39,30 @@ public class ReviewerGUI {
 			e.printStackTrace();
 		}
 	}
-
+	public static int statusToInt(String status) {
+		int sInt = -1;
+		
+		if(status.equals("Major Changes")) {
+			sInt = 1;
+		} else if(status.equals("Minor Changes")) {
+			sInt = 2;
+		} else if(status.equals("Accepted")) {
+			sInt = 3;
+		} else if(status.equals("Rejected")) {
+			sInt = 4;
+		}
+		
+		return sInt;
+	}
 	/**
 	 * Open the window.
 	 */
 	public void open() {
 		Display display = Display.getDefault();
 		createContents();
-		shell.open();
-		shell.layout();
-		while (!shell.isDisposed()) {
+		shlReviewerView.open();
+		shlReviewerView.layout();
+		while (!shlReviewerView.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
 			}
@@ -53,22 +73,22 @@ public class ReviewerGUI {
 	 * Create contents of the window.
 	 */
 	protected void createContents() {
-		shell = new Shell();
-		shell.setSize(700, 450);
-		shell.setText("SWT Application");
+		shlReviewerView = new Shell();
+		shlReviewerView.setSize(700, 450);
+		shlReviewerView.setText("Reviewer View");
 		
-		Button btnLogOut = new Button(shell, SWT.NONE);
+		Button btnLogOut = new Button(shlReviewerView, SWT.NONE);
 		btnLogOut.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				LoginScreen logout = new LoginScreen();
-				shell.close();
+				shlReviewerView.close();
 				logout.open();
 			}
 		});
 		btnLogOut.setBounds(599, 10, 75, 25);
 		btnLogOut.setText("Log Out");
-		Composite tabs = new Composite(shell, SWT.NONE);
+		Composite tabs = new Composite(shlReviewerView, SWT.NONE);
 		tabs.setBounds(0, 0, 674, 364);
 		
 		StackLayout layout = new StackLayout();
@@ -85,21 +105,26 @@ public class ReviewerGUI {
 		tbtmBrowseJournals.setControl(browseJournals);
 		
 		Label lblJournals = new Label(browseJournals, SWT.NONE);
-		lblJournals.setBounds(45, 12, 59, 14);
+		lblJournals.setBounds(53, 10, 59, 14);
 		lblJournals.setText("Journals");
 		
 		List allJournals = new List(browseJournals, SWT.BORDER);
 		allJournals.setLocation(10, 32);
 		allJournals.setSize(152, 168);
-		allJournals.setItems(new String[] {"Journal 1", "Journal 2", "Journal 3"});
+		allJournals.setItems(databaseDownload());
 		
-		Label lblPreview = new Label(browseJournals, SWT.CENTER);
-		lblPreview.setBounds(248, 12, 70, 14);
-		lblPreview.setText("Preview");
-		
-		Button btnNewButton_1 = new Button(browseJournals, SWT.NONE);
-		btnNewButton_1.setBounds(10, 203, 152, 27);
-		btnNewButton_1.setText("Request to Review");
+		Button requestToReviewBtn = new Button(browseJournals, SWT.NONE);
+		requestToReviewBtn.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String j = allJournals.getSelection()[0];
+				System.out.println(j);
+				//TODO: Somehow communicate with the editor class that a
+				//review request for this journal has been submitted
+			}
+		});
+		requestToReviewBtn.setBounds(10, 203, 152, 27);
+		requestToReviewBtn.setText("Request to Review");
 		
 		TabItem tbtmReviewJournals = new TabItem(tabFolder, SWT.NONE);
 		tbtmReviewJournals.setText("Review Journal");
@@ -121,11 +146,17 @@ public class ReviewerGUI {
 		
 		Combo journalList = new Combo(reviewJournals, SWT.READ_ONLY);
 		journalList.setBounds(26, 49, 170, 22);
-		journalList.setItems(new String[] {"Journal 1", "Journal 2", "Journal 3"});
+		journalList.setItems(databaseDownload());
+		String[] temp = databaseDownload();
+		for(int i = 0; i < temp.length; i++) {
+			System.out.println(temp[0]);
+		}
+		System.out.println("this was reached");
+		//journalList.setItems(new String[] {"Journal 1", "Journal 2", "Journal 3"});
 		
-		Button btnNewButton = new Button(reviewJournals, SWT.NONE);
-		btnNewButton.setBounds(29, 80, 167, 28);
-		btnNewButton.setText("Open Selected Journal");
+		Button btnOpenSelectedJournal = new Button(reviewJournals, SWT.NONE);
+		btnOpenSelectedJournal.setBounds(29, 80, 167, 28);
+		btnOpenSelectedJournal.setText("Open Selected Journal");
 		
 		Label lblChangesNeeded = new Label(reviewJournals, SWT.NONE);
 		lblChangesNeeded.setAlignment(SWT.CENTER);
@@ -144,6 +175,12 @@ public class ReviewerGUI {
 				String selectedJournal = journalList.getText();
 				String selectedChanges = changesList.getText();
 				String comments = commentBox.getText();
+				for(int i = 0; i < reviewedJournals.size(); i++) {
+					if(reviewedJournals.get(i).journalTitle.equals(selectedJournal)) {
+						reviewedJournals.get(i).setStatus(statusToInt(selectedChanges));
+						reviewedJournals.get(i).setComments(comments);
+					}
+				}
 				System.out.println(selectedJournal);
 				System.out.println(selectedChanges);
 				System.out.println(comments);
@@ -153,4 +190,31 @@ public class ReviewerGUI {
 		btnSubmit.setText("Submit");
 
 	}
+
+	public static String[] databaseDownload() {
+		System.out.println(":(");
+		ArrayList<Journal> allJournals = new ArrayList<Journal>();
+		DataText dt = new DataText();
+		ArrayList<String> temp2 = new ArrayList<String>();
+		temp2 = dt.textToArray("reviewedJournals.txt", System.getProperty("user.dir"));
+		System.out.println("we need non zero here:" + temp2.size());
+		for(int i = 0; i < temp2.size(); i++) {
+			System.out.println(temp2.get(i));
+			String temps[] = temp2.get(i).split(",");
+			System.out.println(temps[0]);
+			Journal myJournal = new Journal(temps[0]);
+			Reviewer rev1 = new Reviewer(temps[1]);
+			Reviewer rev2 = new Reviewer(temps[2]);
+			Reviewer rev3 = new Reviewer(temps[3]);
+			myJournal.setReviewers(new Reviewer[] {rev1, rev2, rev3});
+			allJournals.add(myJournal);
+		}
+		String[] titleResult = new String[allJournals.size()];
+		for(int i = 0; i < titleResult.length; i++) {
+			titleResult[i] = allJournals.get(i).getJournalTitle();
+			System.out.println("this is running");
+		}
+		return titleResult;
+	}
+
 }
