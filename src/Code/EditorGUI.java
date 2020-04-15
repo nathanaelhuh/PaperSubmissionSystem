@@ -30,6 +30,8 @@ import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.jface.viewers.TableViewer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.swt.widgets.TableItem;
@@ -188,11 +190,11 @@ public class EditorGUI {
 		lblPapers.setText("Papers:");
 		lblPapers.setBackground(SWTResourceManager.getColor(255, 255, 255));
 		lblPapers.setBounds(10, 10, 55, 15);
-		
+		/*
 		Button btnDownloadPaper = new Button(NewSubComp, SWT.NONE);
 		btnDownloadPaper.setText("Download Paper");
 		btnDownloadPaper.setBounds(164, 87, 120, 25);
-		
+		*/
 		/**
 		 * Fills the displayed list with journals
 		 */		
@@ -245,7 +247,8 @@ public class EditorGUI {
 			public void widgetSelected(SelectionEvent e) {
 				int selectedAssReviewer = assReviewerList.getSelectionIndex();
 				if (selectedAssReviewer != -1) {
-					myJournals.get(currentJournal).assReviewers.remove(myJournals.get(currentJournal).getAssReviewers().get(selectedAssReviewer));
+					myJournals.get(currentJournal).assReviewers[selectedAssReviewer] = "";
+					//myJournals.get(currentJournal).assReviewers.remove(myJournals.get(currentJournal).getAssReviewers().get(selectedAssReviewer));
 					assReviewerList.remove(selectedAssReviewer);;
 				}
 				paperList.deselectAll();
@@ -269,11 +272,15 @@ public class EditorGUI {
 				if (selectedNomReviewer != -1 || selectedReqReviewer != -1) {
 					if (selectedReqReviewer == -1) {
 						assReviewerList.add(myJournals.get(currentJournal).getReqReviewers()[selectedNomReviewer]);
+						
+						myJournals.get(currentJournal).assReviewers[assReviewerList.getItemCount()-1] = myJournals.get(currentJournal).getReqReviewers()[selectedNomReviewer];
+						/*
 						for (int i=0; i < myJournals.get(currentJournal).assReviewers.length; i++) {
 							if (myJournals.get(currentJournal).assReviewers[i] == "") {
 								myJournals.get(currentJournal).assReviewers[i] = myJournals.get(currentJournal).getReqReviewers()[selectedNomReviewer];
 							}
 						}
+						*/
 							//myJournals.get(currentJournal).assReviewers.add(myJournals.get(currentJournal).getReqReviewers()[selectedNomReviewer]);
 					}
 					if (selectedNomReviewer == -1) {
@@ -314,7 +321,7 @@ public class EditorGUI {
 						//for(int i = 0; i < 3; i++){
 							currentJournal = 0;
 						//if (myJournals.get(currentJournal).assReviewers.length != 0) {
-							for(int j = 0; j < myJournals.get(currentJournal).assReviewers.length; j++){
+							for(int j = 0; j < 3; j++){
 								assReviewerList.add(myJournals.get(currentJournal).getAssReviewers()[j], j);
 							}
 						//}
@@ -391,6 +398,14 @@ public class EditorGUI {
 							}
 						//}
 					}
+					if (myJournals.get(currentJournal).getAssReviewers()[0] == "") {
+						if (myJournals.get(currentJournal).getAssReviewers()[1] == "") {
+							if (myJournals.get(currentJournal).getAssReviewers()[2] == "") {
+														assReviewerList.removeAll();
+							}
+						}
+
+					}
 				}
 				paperList.deselectAll();
 				nomReviewerList.deselectAll();
@@ -424,11 +439,11 @@ public class EditorGUI {
 		Button btnDenyPaper_2 = new Button(ReviewedPapersComp, SWT.NONE);
 		btnDenyPaper_2.setText("Deny Paper");
 		btnDenyPaper_2.setBounds(50, 309, 182, 25);
-		
+		/*
 		Button btnDownloadPaper_2 = new Button(ReviewedPapersComp, SWT.NONE);
 		btnDownloadPaper_2.setText("Download Paper");
 		btnDownloadPaper_2.setBounds(164, 87, 120, 25);
-		
+		*/
 		List listPaper2 = new List(ReviewedPapersComp, SWT.BORDER);
 		listPaper2.setItems(new String[] {});
 		for(int i = 0; i < myJournals.size(); i++){
